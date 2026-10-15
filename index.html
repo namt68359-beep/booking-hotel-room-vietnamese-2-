@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Booking a Hotel Room | Đặt phòng khách sạn — Learn Vietnamese with Ha</title>
+<style>
+:root{
+  --red:#C8102E;
+  --red-soft:#FBE9EC;
+  --ink:#1F2328;
+  --muted:#5F6368;
+  --line:#E4E6EA;
+  --bg:#FFFFFF;
+  --panel:#FAFAFB;
+  --ok:#1E7B4A;
+  --ok-soft:#E7F5EE;
+  --bad:#B3261E;
+  --bad-soft:#FCE9E7;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+  color:var(--ink);background:var(--bg);line-height:1.6;font-size:16px;
+  min-height:100vh;display:flex;flex-direction:column;
+  padding-bottom:56px;
+}
+header.top{
+  border-bottom:3px solid var(--red);padding:20px 16px 14px;background:var(--bg);
+}
+.wrap{max-width:960px;margin:0 auto;width:100%;padding:0 16px}
+.lesson-title{font-size:1.35rem;font-weight:700;margin:0;color:var(--ink)}
+.lesson-sub{margin:4px 0 0;color:var(--muted);font-size:.95rem}
+nav.tabs{
+  display:flex;gap:6px;overflow-x:auto;padding:12px 0 0;margin-top:10px;
+  scrollbar-width:thin;
+}
+nav.tabs button{
+  flex:0 0 auto;border:1px solid var(--line);background:var(--bg);color:var(--ink);
+  padding:8px 12px;border-radius:999px;font-size:.88rem;cursor:pointer;white-space:nowrap;
+}
+nav.tabs button[aria-selected="true"]{background:var(--red);border-color:var(--red);color:#fff}
+nav.tabs button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--red);outline-offset:2px
+}
+.progress-bar{display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--muted);margin-top:10px}
+.progress-track{flex:1;height:6px;background:var(--line);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;width:0%;background:var(--red);transition:width .3s}
+main{flex:1;padding:24px 0 32px}
+section.panel{display:none}
+section.panel.active{display:block}
+h2.section-title{font-size:1.25rem;margin:0 0 6px;color:var(--ink)}
+h3{font-size:1.05rem;margin:22px 0 8px}
+p.lead{color:var(--muted);margin:0 0 16px}
+.card{
+  border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--bg);margin-bottom:14px;
+}
+.card.soft{background:var(--panel)}
+.btn{
+  display:inline-block;border:1px solid var(--red);background:var(--red);color:#fff;
+  padding:9px 16px;border-radius:8px;font-size:.92rem;cursor:pointer;font-family:inherit;
+}
+.btn:hover{filter:brightness(.95)}
+.btn.ghost{background:#fff;color:var(--red)}
+.btn.ghost:hover{background:var(--red-soft)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.small{padding:5px 10px;font-size:.82rem}
+input[type=text],textarea,select{
+  width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff;color:var(--ink);
+}
+textarea{min-height:70px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row input[type=text]{flex:1 1 240px}
+.msg{font-size:.9rem;margin-top:8px;padding:10px 12px;border-radius:8px;display:none}
+.msg.show{display:block}
+.msg.err{background:var(--bad-soft);color:var(--bad)}
+.msg.ok{background:var(--ok-soft);color:var(--ok)}
+.msg.info{background:var(--red-soft);color:var(--ink)}
+.hint{font-size:.85rem;color:var(--muted);margin-top:6px}
+
+/* Home */
+.hero{padding:8px 0 4px}
+.hero .kicker{font-size:.8rem;letter-spacing:.08em;color:var(--red);font-weight:700;text-transform:uppercase}
+.hero h1{font-size:1.6rem;margin:6px 0 4px}
+.hero .sub{font-weight:600;color:var(--ink);margin:0 0 10px}
+.meta{color:var(--muted);font-size:.92rem;margin:0}
+.intro-quote{border-left:3px solid var(--red);padding:8px 14px;margin:18px 0;color:var(--ink);background:var(--panel);border-radius:0 8px 8px 0}
+.nav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.nav-grid button{
+  text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:14px;cursor:pointer;font:inherit;color:var(--ink)
+}
+.nav-grid button:hover{border-color:var(--red)}
+.nav-grid .num{color:var(--red);font-weight:700;font-size:.8rem}
+.nav-grid .label{font-weight:600;display:block;margin-top:2px}
+.nav-grid .done{color:var(--ok);font-size:.8rem;display:block;margin-top:4px}
+
+/* Dialogue */
+.dialogue-line{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.dialogue-line:last-child{border-bottom:none}
+.speaker{font-weight:700;color:var(--red);font-size:.92rem;padding-top:2px}
+.vi-text{font-size:1.02rem;line-height:1.9}
+.en-text{display:none;color:var(--muted);font-style:italic;margin-top:4px;font-size:.93rem}
+.show-en .en-text{display:block}
+.w{cursor:pointer;border-radius:4px;padding:1px 2px;transition:background .15s}
+.w:hover{background:var(--red-soft)}
+.w.active{background:#F7C8D0;box-shadow:0 0 0 1px var(--red)}
+.w:focus-visible{outline:2px solid var(--red);outline-offset:1px}
+
+/* Translation popover */
+#tip{
+  position:fixed;z-index:50;display:none;max-width:280px;background:#fff;border:1px solid var(--line);
+  border-left:4px solid var(--red);border-radius:10px;padding:12px 14px;box-shadow:0 8px 24px rgba(0,0,0,.12);font-size:.9rem
+}
+#tip.show{display:block}
+#tip .tip-vi{font-weight:700;color:var(--ink)}
+#tip .tip-en{color:var(--muted);margin-top:4px}
+#tip .tip-close{position:absolute;top:6px;right:8px;background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--muted);padding:2px 6px}
+#tip .tip-type{font-size:.75rem;color:var(--red);text-transform:uppercase;letter-spacing:.05em}
+
+/* Vocabulary */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.vcard{border:1px solid var(--line);border-radius:10px;padding:14px;background:#fff}
+.vcard .vi{font-size:1.1rem;font-weight:700;color:var(--ink)}
+.vcard .ven{color:var(--muted);margin:2px 0 8px}
+.vcard .ex{display:none;background:var(--panel);border-radius:8px;padding:10px;margin-top:8px;font-size:.92rem}
+.vcard .ex.show{display:block}
+.match-area{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:640px){.match-area{grid-template-columns:1fr}}
+.match-col h4{margin:0 0 8px;font-size:.9rem;color:var(--muted);font-weight:600}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:pointer;font:inherit;color:var(--ink)}
+.opt:hover:not(:disabled){border-color:var(--red)}
+.opt.sel{border-color:var(--red);background:var(--red-soft)}
+.opt.matched{background:var(--ok-soft);border-color:var(--ok);color:var(--ok);cursor:default}
+.opt:disabled{cursor:default}
+.score-line{font-weight:600;margin:10px 0}
+.feedback{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:.92rem;display:none}
+.feedback.show{display:block}
+.feedback.right{background:var(--ok-soft);color:var(--ok)}
+.feedback.wrong{background:var(--bad-soft);color:var(--bad)}
+.feedback .fb-title{font-weight:700;margin-bottom:4px}
+
+/* Quiz */
+.q{border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px;background:#fff}
+.q .qnum{font-size:.78rem;color:var(--red);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.q .qtext{font-weight:600;margin:4px 0 10px}
+.q .opts label{display:block;border:1px solid var(--line);border-radius:8px;padding:9px 12px;margin-bottom:6px;cursor:pointer}
+.q .opts label:hover{border-color:var(--red)}
+.q .opts input{margin-right:8px;accent-color:var(--red)}
+.q.locked .opts label{cursor:default;opacity:.9}
+.q .actions{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.q .reveal{margin-top:8px;font-size:.9rem;background:var(--panel);padding:10px;border-radius:8px;display:none}
+.q .reveal.show{display:block}
+.blank-inline{display:inline-block;min-width:110px;border-bottom:2px solid var(--red);padding:0 4px;text-align:center}
+.score-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:10px}
+.score-card .big{font-size:1.5rem;font-weight:700;color:var(--red)}
+
+/* Grammar */
+.gram-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.gram-tabs button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 12px;cursor:pointer;font:inherit;font-size:.88rem}
+.gram-tabs button[aria-selected="true"]{border-color:var(--red);color:var(--red);font-weight:600;background:var(--red-soft)}
+.pattern{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--panel);border-radius:8px;padding:10px 12px;margin:6px 0;font-size:.95rem}
+.ex-list li{margin-bottom:6px}
+.note{background:var(--red-soft);border-radius:8px;padding:10px 12px;font-size:.92rem;margin-top:10px}
+.gram-block{display:none}
+.gram-block.active{display:block}
+
+/* Expressions */
+table.ref{width:100%;border-collapse:collapse;font-size:.95rem}
+table.ref th,table.ref td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:left;vertical-align:top}
+table.ref th{color:var(--muted);font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em}
+table.ref td.vi-cell{color:var(--ink);font-weight:600}
+table.ref td.vi-cell .w{font-weight:600}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:720px){.two-col{grid-template-columns:1fr}}
+.role-btns{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.phrase-bank{list-style:none;padding:0;margin:8px 0}
+.phrase-bank li{border-bottom:1px dashed var(--line);padding:6px 0}
+
+/* Speaking */
+.topic-block{margin-bottom:22px}
+.topic-block h3{color:var(--red);margin-top:0}
+.prompt-card{border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:10px;background:#fff}
+.prompt-card .vi-q{font-size:1.02rem;font-weight:600;line-height:1.6}
+.prompt-card .en-q,.prompt-card .vocab-q,.prompt-card .followups{display:none;background:var(--panel);border-radius:8px;padding:10px;margin-top:8px;font-size:.93rem}
+.prompt-card .en-q.show,.prompt-card .vocab-q.show,.prompt-card .followups.show{display:block}
+.prompt-card .followups ul{margin:4px 0 0;padding-left:18px}
+.prompt-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.speak-controls{position:sticky;top:0;background:#fff;padding:10px 0;border-bottom:1px solid var(--line);z-index:5;margin-bottom:14px}
+.speak-controls .counter{font-size:.85rem;color:var(--muted)}
+.topic-select{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.topic-select button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 11px;font:inherit;font-size:.85rem;cursor:pointer}
+.topic-select button[aria-pressed="true"]{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.situation{background:var(--panel);border-left:3px solid var(--red);padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:10px}
+
+/* Review */
+.review-grid{display:grid;gap:14px}
+.review-list{display:flex;flex-wrap:wrap;gap:6px}
+.review-list span{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:.88rem}
+
+/* Footer */
+footer.brand{
+  position:fixed;right:0;bottom:0;left:0;height:40px;display:flex;justify-content:flex-end;align-items:center;
+  padding:0 16px;background:rgba(255,255,255,.96);border-top:1px solid var(--line);
+  font-size:.78rem;color:var(--muted);letter-spacing:.02em;z-index:40;
+}
+footer.brand span{font-family:Georgia,"Times New Roman",serif;font-style:italic}
+
+@media (max-width:640px){
+  .dialogue-line{grid-template-columns:1fr;gap:4px}
+  .lesson-title{font-size:1.15rem}
+  .hero h1{font-size:1.35rem}
+  .two-col{gap:10px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <p class="lesson-title">Booking a Hotel Room | Đặt phòng khách sạn</p>
+    <p class="lesson-sub">123Vietnamese · Pages 156–157</p>
+    <nav class="tabs" role="tablist" aria-label="Lesson sections">
+      <button role="tab" data-tab="home" aria-selected="true">Home</button>
+      <button role="tab" data-tab="listen" aria-selected="false">1. Listen and Read</button>
+      <button role="tab" data-tab="vocab" aria-selected="false">2. Vocabulary</button>
+      <button role="tab" data-tab="grammar" aria-selected="false">3. Grammar</button>
+      <button role="tab" data-tab="expr" aria-selected="false">4. Useful Hotel Expressions</button>
+      <button role="tab" data-tab="check" aria-selected="false">5. Comprehension Check</button>
+      <button role="tab" data-tab="speak" aria-selected="false">6. Speaking Practice</button>
+      <button role="tab" data-tab="review" aria-selected="false">7. Review</button>
+    </nav>
+    <div class="progress-bar">
+      <span id="progress-label">Progress: 0 of 5 exercises complete</span>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- HOME -->
+<section class="panel active" id="panel-home">
+  <div class="hero">
+    <div class="kicker">Learn Vietnamese with Ha</div>
+    <h1>BOOKING A HOTEL ROOM | ĐẶT PHÒNG KHÁCH SẠN</h1>
+    <p class="meta">Textbook: 123Vietnamese<br>Source: Pages 156–157</p>
+    <div class="intro-quote">
+      <p style="margin:0">“In this lesson, you will learn how to reserve a hotel room, ask about prices and facilities, understand important Vietnamese grammar patterns, and discuss travel and accommodation in natural Vietnamese.”</p>
+    </div>
+  </div>
+  <h3>Lesson sections</h3>
+  <div class="nav-grid">
+    <button data-go="listen"><span class="num">01</span><span class="label">Listen and Read</span><span class="done" data-done="listen"></span></button>
+    <button data-go="vocab"><span class="num">02</span><span class="label">Vocabulary</span><span class="done" data-done="vocab"></span></button>
+    <button data-go="grammar"><span class="num">03</span><span class="label">Grammar</span><span class="done" data-done="grammar"></span></button>
+    <button data-go="expr"><span class="num">04</span><span class="label">Useful Hotel Expressions</span><span class="done" data-done="expr"></span></button>
+    <button data-go="check"><span class="num">05</span><span class="label">Comprehension Check</span><span class="done" data-done="check"></span></button>
+    <button data-go="speak"><span class="num">06</span><span class="label">Speaking Practice</span></button>
+    <button data-go="review"><span class="num">07</span><span class="label">Review</span></button>
+  </div>
+</section>
+
+<!-- LISTEN AND READ -->
+<section class="panel" id="panel-listen">
+  <h2 class="section-title">Listen and Read</h2>
+  <p class="lead">Listen to the dialogue, then read it. Tap any Vietnamese word to see its English meaning.</p>
+
+  <div class="card soft">
+    <h3 style="margin-top:0">Listen to the Dialogue</h3>
+    <label for="drive-link" style="font-weight:600;font-size:.92rem">Paste your Google Drive audio link</label>
+    <div class="row" style="margin-top:6px">
+      <input type="text" id="drive-link" placeholder="Paste your Google Drive audio link here" autocomplete="off" value="https://drive.google.com/file/d/12pf3Sr-ejio-ZcPyRl6kxbobAF4HiPcT/view?usp=drive_link">
+      <button class="btn" id="load-audio">Load Audio</button>
+    </div>
+    <p class="hint">The file must be shared with appropriate permissions, such as “Anyone with the link”. Direct audio URLs (.mp3, .m4a, .wav, .ogg) also work.</p>
+    <div class="msg" id="audio-msg" role="status" aria-live="polite"></div>
+    <div id="audio-player" style="margin-top:10px"></div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between;margin-bottom:6px">
+      <h3 style="margin:0">Hội thoại: Nói chuyện điện thoại</h3>
+      <button class="btn ghost small" id="toggle-en" aria-pressed="false">Show English Translation</button>
+    </div>
+    <p class="hint" style="margin-top:0">Tap any Vietnamese word or phrase to see its meaning. Tap again or press Esc to close.</p>
+    <div id="dialogue" style="margin-top:8px"></div>
+  </div>
+  <div class="row" style="justify-content:flex-end"><button class="btn ghost" data-next="vocab">Next: Vocabulary →</button></div>
+</section>
+
+<!-- VOCABULARY -->
+<section class="panel" id="panel-vocab">
+  <h2 class="section-title">Vocabulary</h2>
+  <p class="lead">Study each word, reveal the example sentence, then practise matching.</p>
+  <div class="vocab-grid" id="vocab-grid"></div>
+
+  <div class="card" style="margin-top:20px">
+    <h3 style="margin-top:0">Matching Practice</h3>
+    <p class="hint" style="margin-top:0">Select a Vietnamese word, then its English meaning.</p>
+    <div class="match-area">
+      <div class="match-col"><h4>Vietnamese</h4><div id="match-vi"></div></div>
+      <div class="match-col"><h4>English</h4><div id="match-en"></div></div>
+    </div>
+    <div class="score-line" id="match-score">Score: 0 / 0</div>
+    <div class="feedback" id="match-fb"></div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn ghost" id="match-reset">Shuffle & Restart</button>
+    </div>
+  </div>
+  <div class="row" style="justify-content:flex-end"><button class="btn ghost" data-next="grammar">Next: Grammar →</button></div>
+</section>
+
+<!-- GRAMMAR -->
+<section class="panel" id="panel-grammar">
+  <h2 class="section-title">Grammar</h2>
+  <p class="lead">Three structures from the lesson. Study each one, then complete the practice questions.</p>
+  <div class="gram-tabs" role="tablist">
+    <button role="tab" data-gram="g1" aria-selected="true">1. Thế nào cũng</button>
+    <button role="tab" data-gram="g2" aria-selected="false">2. Tuy / Dù / Mặc dù… nhưng… vẫn</button>
+    <button role="tab" data-gram="g3" aria-selected="false">3. Ngày càng / Càng ngày càng</button>
+  </div>
+
+  <!-- G1 -->
+  <div class="gram-block active" id="g1">
+    <div class="card">
+      <h3 style="margin-top:0">“THẾ NÀO CŨNG” / “THẾ NÀO… CŨNG”</h3>
+      <p><strong>Structures</strong></p>
+      <div class="pattern">Pattern A: Subject + thế nào cũng + verb</div>
+      <div class="pattern">Pattern B: Thế nào + subject + cũng + verb</div>
+      <p><strong>Meaning.</strong> These expressions indicate that something will definitely happen, or that the speaker is very confident about a prediction.</p>
+      <p><strong>Original examples</strong></p>
+      <ul class="ex-list">
+        <li><span class="vi-ex">Thế nào anh ấy cũng đi du lịch với gia đình.</span><br><span class="en-ex" style="color:var(--muted)">He will definitely travel with his family.</span></li>
+        <li><span class="vi-ex">Trời thế nào cũng mưa.</span><br><span class="en-ex" style="color:var(--muted)">It is definitely going to rain.</span></li>
+      </ul>
+      <p><strong>From the dialogue</strong></p>
+      <ul class="ex-list">
+        <li><span class="vi-ex">Thế nào chị cũng phải giữ phòng đẹp cho tôi nhé.</span><br><span style="color:var(--muted)">You must definitely keep a nice room for me, okay?</span></li>
+      </ul>
+      <p><strong>How it works.</strong> The phrase “thế nào… cũng” signals strong expectation. The speaker is confident the event will happen, so it works like “will definitely” or “surely” in English.</p>
+      <p><strong>Additional example</strong></p>
+      <ul class="ex-list">
+        <li><span class="vi-ex">Ngày mai là sinh nhật Lan. Cô ấy thế nào cũng rất vui.</span><br><span style="color:var(--muted)">Tomorrow is Lan's birthday. She will definitely be very happy.</span></li>
+      </ul>
+      <div class="note"><strong>Watch out:</strong> Do not confuse this structure with the question “như thế nào?”, which means “how?” or “what… like?”. In “thế nào… cũng”, there is no question. It is a statement of confidence.</div>
+    </div>
+    <div class="card soft">
+      <h3 style="margin-top:0">Practice: Thế nào cũng</h3>
+      <div id="quiz-g1"></div>
+      <div class="score-card" id="score-g1" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- G2 -->
+  <div class="gram-block" id="g2">
+    <div class="card">
+      <h3 style="margin-top:0">“DÙ / TUY / MẶC DÙ… NHƯNG… VẪN”</h3>
+      <p><strong>Meaning.</strong> This structure expresses contrast or concession: something happens despite a contrasting situation.</p>
+      <p><strong>Structures</strong></p>
+      <div class="pattern">Tuy A nhưng B vẫn…</div>
+      <div class="pattern">Dù A nhưng B vẫn…</div>
+      <div class="pattern">Mặc dù A nhưng B vẫn…</div>
+      <p><strong>Alternative structures</strong></p>
+      <div class="pattern">B dù A.</div>
+      <div class="pattern">B mặc dù A.</div>
+      <p><strong>Original examples</strong></p>
+      <ul class="ex-list">
+        <li><span class="vi-ex">Tuy tôi mệt nhưng (tôi) vẫn đi học.</span><br><span style="color:var(--muted)">Although I am tired, I still go to school.</span></li>
+        <li><span class="vi-ex">Dù trời mưa nhưng ông ấy vẫn ra ngoài gặp bạn.</span><br><span style="color:var(--muted)">Even though it is raining, he still goes out to meet his friend.</span></li>
+        <li><span class="vi-ex">Mặc dù trời mưa cô ấy vẫn đi pic nic.</span><br><span style="color:var(--muted)">Even though it is raining, she still goes on a picnic.</span></li>
+        <li><span class="vi-ex">Tôi vẫn đi học dù (tôi) mệt.</span><br><span style="color:var(--muted)">I still go to school even though I am tired.</span></li>
+        <li><span class="vi-ex">Cô ấy vẫn đi pic nic dù trời mưa.</span><br><span style="color:var(--muted)">She still goes on a picnic even though it is raining.</span></li>
+      </ul>
+      <p><strong>From the dialogue</strong></p>
+      <ul class="ex-list">
+        <li><span class="vi-ex">Tuy phòng đó không nhìn ra hồ được nhưng vẫn ngắm thành phố được, đẹp lắm.</span><br><span style="color:var(--muted)">Although that room does not have a lake view, you can still enjoy the city view. It is very beautiful.</span></li>
+      </ul>
+      <p><strong>How it works</strong></p>
+      <ul>
+        <li>“tuy”, “dù”, and “mặc dù” introduce the contrasting situation.</li>
+        <li>“nhưng” introduces the contrasting result.</li>
+        <li>“vẫn” emphasises that the result stays true despite the situation.</li>
+        <li>In the alternative structure, the main clause can come first, followed by “dù” or “mặc dù”.</li>
+      </ul>
+      <div class="note"><strong>Note:</strong> Vietnamese speakers may omit “nhưng” in some sentences. Use the patterns above as the main teaching structures.</div>
+    </div>
+    <div class="card soft">
+      <h3 style="margin-top:0">Practice: Tuy / Dù / Mặc dù</h3>
+      <div id="quiz-g2"></div>
+      <div class="score-card" id="score-g2" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- G3 -->
+  <div class="gram-block" id="g3">
+    <div class="card">
+      <h3 style="margin-top:0">“CÀNG NGÀY CÀNG” / “NGÀY CÀNG”</h3>
+      <p><strong>Meaning.</strong> These expressions describe a gradual increase or change in degree or quality over time.</p>
+      <p><strong>Structures</strong></p>
+      <div class="pattern">Subject + càng ngày càng + adjective</div>
+      <div class="pattern">Subject + ngày càng + adjective</div>
+      <p><strong>Original examples</strong></p>
+      <ul class="ex-list">
+        <li><span class="vi-ex">Họ nói tiếng Việt ngày càng giống người Việt Nam.</span><br><span style="color:var(--muted)">They speak Vietnamese more and more like Vietnamese people.</span></li>
+        <li><span class="vi-ex">Cây hoa càng ngày càng lớn.</span><br><span style="color:var(--muted)">The flower tree is getting bigger and bigger.</span></li>
+      </ul>
+      <p><strong>From the dialogue</strong></p>
+      <ul class="ex-list">
+        <li><span class="vi-ex">Giá phòng ngày càng đắt phải không chị?</span><br><span style="color:var(--muted)">Hotel room prices are getting more and more expensive, aren't they?</span></li>
+      </ul>
+      <p><strong>How it works.</strong> “Ngày càng” and “càng ngày càng” often indicate a continuing change. They commonly appear before adjectives or descriptive expressions. The sentence describes a trend, not a one-time state.</p>
+      <p><strong>Simple examples</strong></p>
+      <ul class="ex-list">
+        <li><span class="vi-ex">Thành phố ngày càng đông.</span><br><span style="color:var(--muted)">The city is getting more and more crowded.</span></li>
+        <li><span class="vi-ex">Tôi nói tiếng Việt càng ngày càng tốt.</span><br><span style="color:var(--muted)">I speak Vietnamese better and better.</span></li>
+      </ul>
+    </div>
+    <div class="card soft">
+      <h3 style="margin-top:0">Practice: Ngày càng / Càng ngày càng</h3>
+      <div id="quiz-g3"></div>
+      <div class="score-card" id="score-g3" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="row" style="justify-content:flex-end"><button class="btn ghost" data-next="expr">Next: Useful Expressions →</button></div>
+</section>
+
+<!-- EXPRESSIONS -->
+<section class="panel" id="panel-expr">
+  <h2 class="section-title">Useful Hotel Expressions</h2>
+  <p class="lead">Tap any Vietnamese phrase to see its English meaning. Then try the role-play.</p>
+
+  <div class="two-col">
+    <div class="card">
+      <h3 style="margin-top:0">Receptionist</h3>
+      <table class="ref">
+        <thead><tr><th>Vietnamese</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td class="vi-cell"><span class="w" data-tip="Tôi có thể giúp gì cho anh?">Tôi có thể giúp gì cho anh?</span></td><td>May I help you?</td></tr>
+          <tr><td class="vi-cell"><span class="w" data-tip="Anh cần gì ạ?">Anh cần gì ạ?</span></td><td>What would you like?</td></tr>
+          <tr><td class="vi-cell"><span class="w" data-tip="Anh muốn phòng loại nào?">Anh muốn phòng loại nào?</span></td><td>What kind of room would you like?</td></tr>
+          <tr><td class="vi-cell"><span class="w" data-tip="Anh (chị) muốn ở phòng đơn hay phòng đôi?">Anh (chị) muốn ở phòng đơn hay phòng đôi?</span></td><td>Would you like a single or double room?</td></tr>
+          <tr><td class="vi-cell"><span class="w" data-tip="Anh (chị) ở đây bao lâu / mấy ngày?">Anh (chị) ở đây bao lâu / mấy ngày?</span></td><td>How long will you be staying?</td></tr>
+          <tr><td class="vi-cell"><span class="w" data-tip="Cho tôi xem hộ chiếu của anh.">Cho tôi xem hộ chiếu của anh.</span></td><td>May I see your passport?</td></tr>
+          <tr><td class="vi-cell"><span class="w" data-tip="Chìa khóa của anh đây.">Chìa khóa của anh đây.</span></td><td>Here is your key.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Guest</h3>
+      <table class="ref">
+        <thead><tr><th>Vietnamese</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td class="vi-cell"><span class="w" data-tip="Tôi muốn đặt phòng.">Tôi muốn đặt phòng.</span></td><td>I would like to book a room.</td></tr>
+          <tr><td class="vi-cell"><span class="w" data-tip="Cho tôi thuê phòng.">Cho tôi thuê phòng.</span></td><td>I would like to rent a room.</td></tr>
+          <tr><td class="vi-cell"><span class="w" data-tip="Phòng đơn / phòng đôi bao nhiêu tiền một đêm?">Phòng đơn / phòng đôi bao nhiêu tiền một đêm?</span></td><td>How much is a single / double room per night?</td></tr>
+          <tr><td class="vi-cell"><span class="w" data-tip="Giá phòng đã bao gồm ăn sáng chưa?">Giá phòng đã bao gồm ăn sáng chưa?</span></td><td>Does the room rate include breakfast?</td></tr>
+          <tr><td class="vi-cell"><span class="w" data-tip="Trong phòng có điều hòa không?">Trong phòng có điều hòa không?</span></td><td>Is there air conditioning in the room?</td></tr>
+          <tr><td class="vi-cell"><span class="w" data-tip="Trong phòng có wifi không?">Trong phòng có wifi không?</span></td><td>Is there Wi-Fi in the room?</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card soft" style="margin-top:14px">
+    <h3 style="margin-top:0">Mini Role-Play</h3>
+    <p class="hint" style="margin-top:0">Choose a role. This is a language-learning activity only, not a real booking.</p>
+    <div class="role-btns">
+      <button class="btn ghost" data-role="Receptionist" aria-pressed="false">Receptionist</button>
+      <button class="btn ghost" data-role="Guest" aria-pressed="false">Guest</button>
+    </div>
+    <div id="roleplay-area" style="display:none">
+      <div class="situation" id="role-situation"></div>
+      <h4 style="margin:10px 0 4px">Useful phrase bank</h4>
+      <ul class="phrase-bank" id="role-bank"></ul>
+      <p class="hint">Practise the conversation with your teacher. Use the phrases above as a guide.</p>
+    </div>
+  </div>
+  <div class="row" style="justify-content:flex-end"><button class="btn ghost" data-next="check">Next: Comprehension →</button></div>
+</section>
+
+<!-- COMPREHENSION -->
+<section class="panel" id="panel-check">
+  <h2 class="section-title">CHECK YOUR UNDERSTANDING</h2>
+  <p class="lead">Mười câu hỏi về hội thoại. Chọn hoặc gõ câu trả lời, rồi bấm Submit.</p>
+  <div class="card soft" id="open-q">
+    <div class="qnum" style="font-size:.78rem;color:var(--red);font-weight:700;text-transform:uppercase;letter-spacing:.05em">Câu hỏi mở · Open question (not scored)</div>
+    <p class="qtext" style="font-weight:600;margin:6px 0 10px">Anh/chị hãy kể về một trải nghiệm đặt phòng khách sạn mà anh/chị ưng ý, hài lòng, và một trải nghiệm không tốt.</p>
+    <p class="hint" style="margin-top:0">Hãy trả lời bằng tiếng Việt. Your answer is for practice only and is not marked.</p>
+    <textarea id="open-answer" placeholder="Viết câu trả lời của anh/chị ở đây (tùy chọn)..."></textarea>
+    <div class="row" style="margin-top:8px"><button class="btn ghost small" id="open-sample-btn" aria-expanded="false">Show sample answer</button></div>
+    <div class="reveal" id="open-sample" style="display:none;background:var(--panel);padding:10px;border-radius:8px;margin-top:8px;font-size:.93rem">
+      <p style="margin:0 0 6px"><strong>Gợi ý:</strong> Một trải nghiệm tốt: “Tôi đặt phòng qua điện thoại. Lễ tân rất nhiệt tình, giá phòng hợp lý, và phòng sạch sẽ, có view đẹp.”</p>
+      <p style="margin:0 0 6px"><strong>Một trải nghiệm không tốt:</strong> “Tôi đến khách sạn nhưng phòng không đúng như đã đặt, và tôi phải chờ rất lâu.”</p>
+      <p style="margin:0;color:var(--muted);font-style:italic">Tip: Use “Tôi thích…”, “Tôi không hài lòng vì…”, and “Nhưng…”. There is no single correct answer.</p>
+    </div>
+  </div>
+  <div id="check-quiz"></div>
+  <div class="score-card" id="check-score" style="display:none"></div>
+  <div class="row" style="justify-content:space-between;margin-top:12px">
+    <button class="btn ghost" id="check-reset">Reset Comprehension Check</button>
+  </div>
+  <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn ghost" data-next="speak">Next: Speaking Practice →</button></div>
+</section>
+
+<!-- SPEAKING -->
+<section class="panel" id="panel-speak">
+  <h2 class="section-title">LET’S TALK! — SPEAKING PRACTICE</h2>
+  <p class="lead">Open-ended prompts for live conversation between teacher and learner. These are not scored.</p>
+
+  <div class="speak-controls">
+    <div class="topic-select" id="topic-select"></div>
+    <div class="row" style="justify-content:space-between">
+      <span class="counter" id="speak-counter"></span>
+      <div class="row">
+        <button class="btn ghost small" id="speak-prev">← Previous</button>
+        <button class="btn small" id="speak-next">Next Question →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="speak-area"></div>
+
+  <div class="card soft" style="margin-top:16px">
+    <h3 style="margin-top:0">Teacher notes</h3>
+    <textarea id="teacher-notes" placeholder="Type feedback or observations here. Notes are kept only while this page is open."></textarea>
+  </div>
+  <div class="row" style="justify-content:flex-end"><button class="btn ghost" data-next="review">Next: Review →</button></div>
+</section>
+
+<!-- REVIEW -->
+<section class="panel" id="panel-review">
+  <h2 class="section-title">Final Review</h2>
+  <p class="lead">A summary of the lesson. Revisit any section you want to practise again.</p>
+  <div class="review-grid">
+    <div class="card">
+      <h3 style="margin-top:0">Key vocabulary</h3>
+      <div class="review-list" id="review-vocab"></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Key grammar</h3>
+      <ul>
+        <li><strong>Thế nào cũng / thế nào… cũng</strong>: strong expectation or prediction (“will definitely”).</li>
+        <li><strong>Tuy / dù / mặc dù… nhưng… vẫn</strong>: contrast, “although… still…”.</li>
+        <li><strong>Ngày càng / càng ngày càng</strong>: gradual change, “more and more…”.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Useful communication skills</h3>
+      <p class="hint" style="margin-top:0">You should be able to:</p>
+      <ul>
+        <li>Ask to book a hotel room.</li>
+        <li>Ask about room types and prices.</li>
+        <li>Ask whether breakfast is included.</li>
+        <li>Ask about room facilities and views.</li>
+        <li>Express a strong prediction.</li>
+        <li>Describe a gradual change.</li>
+        <li>Express contrast.</li>
+        <li>Take part in a conversation about hotels and travel.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Your progress</h3>
+      <div id="review-progress"></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn" id="restart-lesson">Restart Lesson</button>
+      </div>
+      <p class="hint">Restart resets all quiz scores and matching progress. It does not clear your typed teacher notes.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div id="tip" role="dialog" aria-live="polite">
+  <button class="tip-close" aria-label="Close translation">×</button>
+  <div class="tip-type" id="tip-type"></div>
+  <div class="tip-vi" id="tip-vi"></div>
+  <div class="tip-en" id="tip-en"></div>
+</div>
+
+<footer class="brand">
+  <span>Learn Vietnamese with Ha</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Dictionary grounded in the dialogue and lesson ---------- */
+const DICT = {
+  "xin chào": ["greeting", "hello"],
+  "khách sạn": ["noun", "hotel"],
+  "sofitel": ["proper noun", "Sofitel (hotel brand name)"],
+  "nghe đây": ["phrase", "speaking (answering the phone)"],
+  "nghe": ["verb", "to listen / to hear"],
+  "đây": ["particle", "here / (used when answering the phone)"],
+  "ạ": ["particle", "polite particle (used with elders or in service)"],
+  "tôi": ["pronoun", "I / me"],
+  "có thể": ["modal", "can / be able to"],
+  "giúp": ["verb", "to help"],
+  "gì": ["pronoun", "what"],
+  "cho": ["verb / preposition", "to give / for"],
+  "anh": ["pronoun", "you (male, older or same age, polite)"],
+  "vâng": ["interjection", "yes (polite)"],
+  "muốn": ["verb", "to want"],
+  "đặt phòng": ["phrase", "to book a room"],
+  "đặt": ["verb", "to book / to reserve"],
+  "phòng": ["noun", "room"],
+  "lễ tân": ["noun", "receptionist"],
+  "phòng đơn": ["phrase", "single room"],
+  "phòng đôi": ["phrase", "double room"],
+  "hay": ["conjunction", "or"],
+  "một": ["number", "one / a"],
+  "đầy đủ": ["adjective", "enough / complete"],
+  "tiện nghi": ["noun", "facility / amenity"],
+  "đầy đủ tiện nghi": ["phrase", "fully equipped / with all necessary facilities"],
+  "trong": ["preposition", "in / inside"],
+  "chứ": ["particle", "question tag (seeking confirmation)"],
+  "ở": ["verb", "to stay / to live"],
+  "bao lâu": ["phrase", "how long"],
+  "từ": ["preposition", "from"],
+  "đến": ["preposition", "to / until"],
+  "tháng": ["noun", "month"],
+  "ngày": ["noun", "day / date"],
+  "tháng 8": ["phrase", "August"],
+  "giá": ["noun", "price"],
+  "thế nào": ["phrase", "how / what (about)"],
+  "hả": ["particle", "question particle (casual)"],
+  "chị": ["pronoun", "you (female, older, polite)"],
+  "đồng": ["noun", "dong (Vietnamese currency)"],
+  "triệu": ["number", "million"],
+  "triệu đồng": ["phrase", "million dong"],
+  "hai triệu đồng": ["phrase", "2 million dong"],
+  "một ngày đêm": ["phrase", "per 24-hour period / per night"],
+  "đắt": ["adjective", "expensive"],
+  "ngày càng": ["phrase", "more and more / increasingly"],
+  "phải không": ["phrase", "isn't it / right? (tag question)"],
+  "không": ["adverb", "not / no"],
+  "đắt đâu": ["phrase", "not expensive at all"],
+  "này": ["particle", "this"],
+  "bữa sáng": ["noun", "breakfast"],
+  "bao gồm": ["verb", "to include"],
+  "bao gồm bữa sáng": ["phrase", "to include breakfast"],
+  "rồi": ["adverb", "already / yes (completed)"],
+  "nhìn ra hồ": ["phrase", "to have a view of the lake"],
+  "nhìn": ["verb", "to look / to see"],
+  "ra": ["particle", "out (direction)"],
+  "hồ": ["noun", "lake"],
+  "được": ["modal", "can / to be able to"],
+  "có thể nhìn ra hồ được": ["phrase", "can have a lake view"],
+  "xin lỗi": ["phrase", "sorry / excuse me"],
+  "tuy": ["conjunction", "although (concession)"],
+  "nhưng": ["conjunction", "but / however"],
+  "vẫn": ["adverb", "still / yet"],
+  "ngắm": ["verb", "to look at / to enjoy the view"],
+  "ngắm thành phố": ["phrase", "to enjoy the city view"],
+  "thành phố": ["noun", "city"],
+  "đẹp": ["adjective", "beautiful / nice"],
+  "lắm": ["adverb", "very / a lot"],
+  "đẹp lắm": ["phrase", "very beautiful"],
+  "được rồi": ["phrase", "all right / OK"],
+  "năm": ["number", "five"],
+  "ngày nữa": ["phrase", "days from now"],
+  "sẽ": ["adverb", "will (future)"],
+  "đến": ["verb", "to arrive / to come"],
+  "thế nào chị cũng": ["phrase", "you will definitely…"],
+  "thế nào": ["phrase", "how / what (about)"],
+  "cũng": ["adverb", "also / too / (emphasis)"],
+  "phải": ["verb / modal", "must / have to"],
+  "giữ": ["verb", "to keep / to hold"],
+  "giữ phòng": ["phrase", "to reserve or hold a room"],
+  "đẹp cho tôi": ["phrase", "nice for me"],
+  "nhé": ["particle", "okay? / (friendly reminder)"],
+  "chắc chắn": ["adjective", "certain / sure"],
+  "chắc chắn rồi": ["phrase", "of course / certainly"],
+  "À": ["interjection", "oh / by the way"],
+  "anh tên là gì": ["phrase", "what is your name?"],
+  "tên": ["noun", "name"],
+  "là": ["verb", "to be"],
+  "Tôi là": ["phrase", "My name is / I am"],
+  "Nam Cường": ["proper noun", "a person's name (Nam Cường)"],
+  "cám ơn": ["phrase", "thank you"],
+  "chị": ["pronoun", "you (female, older, polite)"],
+  "hẹn gặp lại": ["phrase", "see you again"],
+  "hẹn": ["verb", "to arrange to meet"],
+  "gặp": ["verb", "to meet"],
+  "lại": ["adverb", "again"],
+  "Chào anh": ["phrase", "Goodbye / Hello (to a man)"],
+  "chào": ["verb", "to greet / to say hello or goodbye"],
+  "thế nào cũng phải": ["phrase", "must definitely"],
+  "nói chuyện điện thoại": ["phrase", "to talk on the phone"],
+  "nói chuyện": ["verb", "to talk / to chat"],
+  "điện thoại": ["noun", "telephone / phone call"],
+  "hội thoại": ["noun", "dialogue / conversation"],
+  "tôi muốn": ["phrase", "I want / I would like"],
+  "tôi muốn đặt phòng": ["phrase", "I would like to book a room"],
+  "cho tôi một phòng đơn": ["phrase", "give me a single room"],
+  "vẫn ngắm": ["phrase", "still enjoy the view"]
+};
+
+/* Ordered longest-first so phrases match before single words */
+const DICT_KEYS = Object.keys(DICT).sort((a,b)=>b.length-a.length);
+
+function lookup(raw){
+  const key = raw.toLowerCase().normalize("NFC").replace(/[.,!?;:"“”()]/g,"").trim();
+  if (DICT[key]) return {vi:raw.replace(/[.,!?;:"“”()]/g,"").trim(), type:DICT[key][0], en:DICT[key][1]};
+  return null;
+}
+
+/* ---------- Dialogue data ---------- */
+const DIALOGUE = [
+  {sp:"Lễ tân", vi:"Xin chào! Khách sạn Sofitel nghe đây ạ. Tôi có thể giúp gì cho anh?", en:"Hello! Sofitel Hotel, how can I help you?"},
+  {sp:"Khách", vi:"Vâng. Tôi muốn đặt phòng.", en:"Yes. I would like to book a room."},
+  {sp:"Lễ tân", vi:"Anh muốn phòng đơn hay phòng đôi?", en:"Would you like a single room or a double room?"},
+  {sp:"Khách", vi:"Cho tôi một phòng đơn. Trong phòng có đầy đủ tiện nghi chứ?", en:"A single room for me, please. Does the room have all the necessary facilities?"},
+  {sp:"Lễ tân", vi:"Vâng, đầy đủ. Anh sẽ ở trong bao lâu ạ?", en:"Yes, it has everything. How long will you be staying?"},
+  {sp:"Khách", vi:"Tôi ở từ 15 tháng 8 đến 17 tháng 8. Giá phòng thế nào hả chị?", en:"I will stay from 15 August to 17 August. What is the room price, please?"},
+  {sp:"Lễ tân", vi:"Phòng đơn là hai triệu đồng một ngày đêm.", en:"A single room is two million dong per night."},
+  {sp:"Khách", vi:"Giá phòng ngày càng đắt phải không chị?", en:"Room prices are getting more and more expensive, aren't they?"},
+  {sp:"Lễ tân", vi:"Không đắt đâu anh.", en:"They are not expensive at all."},
+  {sp:"Khách", vi:"Giá này đã bao gồm bữa sáng chưa chị?", en:"Does this price already include breakfast?"},
+  {sp:"Lễ tân", vi:"Có rồi anh ạ.", en:"Yes, it does."},
+  {sp:"Khách", vi:"Cho tôi hỏi phòng đó có thể nhìn ra hồ được không?", en:"May I ask whether that room can have a view of the lake?"},
+  {sp:"Lễ tân", vi:"Xin lỗi anh. Tuy phòng đó không nhìn ra hồ được nhưng vẫn ngắm thành phố được, đẹp lắm.", en:"I'm sorry. Although that room does not have a lake view, you can still enjoy the city view. It is very beautiful."},
+  {sp:"Khách", vi:"Được rồi. 5 ngày nữa tôi sẽ đến. Thế nào chị cũng phải giữ phòng đẹp cho tôi nhé.", en:"All right. I will arrive in 5 days. You must definitely keep a nice room for me, okay?"},
+  {sp:"Lễ tân", vi:"Vâng. Chắc chắn rồi. À, xin lỗi, anh tên là gì?", en:"Yes. Certainly. Oh, sorry, what is your name?"},
+  {sp:"Khách", vi:"Tôi là Nam Cường. Cám ơn chị. Hẹn gặp lại.", en:"My name is Nam Cường. Thank you. See you again."},
+  {sp:"Lễ tân", vi:"Chào anh. Hẹn gặp lại anh.", en:"Goodbye. See you again."}
+];
+
+/* Phrase-level tips used for clickable phrases in dialogue. Each dialogue
+   line's words are tokenised; multi-word phrases are matched first. */
+const PHRASE_TIPS = [
+  ["Xin chào", "hello / greeting"],
+  ["Khách sạn Sofitel", "Sofitel Hotel"],
+  ["nghe đây ạ", "answering the phone (“I'm listening”)"],
+  ["Tôi có thể giúp gì cho anh", "May I help you?"],
+  ["Tôi muốn đặt phòng", "I would like to book a room"],
+  ["đặt phòng", "to book a room"],
+  ["phòng đơn", "single room"],
+  ["phòng đôi", "double room"],
+  ["đầy đủ tiện nghi", "fully equipped / with all necessary facilities"],
+  ["ở trong bao lâu", "how long will you stay"],
+  ["Tôi ở từ", "I will stay from"],
+  ["Giá phòng thế nào", "what is the room price"],
+  ["một ngày đêm", "per 24-hour period / per night"],
+  ["ngày càng đắt", "getting more and more expensive"],
+  ["phải không", "isn't it? / right? (tag question)"],
+  ["Không đắt đâu", "not expensive at all"],
+  ["bao gồm bữa sáng", "to include breakfast"],
+  ["Có rồi", "yes, it does / yes, it has"],
+  ["nhìn ra hồ", "to have a view of the lake"],
+  ["Cho tôi hỏi", "may I ask"],
+  ["Được rồi", "all right / OK"],
+  ["5 ngày nữa", "in 5 days"],
+  ["Thế nào chị cũng phải", "you must definitely"],
+  ["giữ phòng đẹp", "to keep a nice room (for me)"],
+  ["Chắc chắn rồi", "of course / certainly"],
+  ["Tên là gì", "what is the name"],
+  ["Cám ơn", "thank you"],
+  ["Hẹn gặp lại", "see you again"],
+  ["Chào anh", "goodbye / hello (to a man)"],
+  ["ngắm thành phố", "to enjoy the city view"],
+  ["Tuy phòng đó không nhìn ra hồ được", "although that room does not have a lake view"],
+  ["Vâng", "yes (polite)"],
+  ["Xin lỗi", "sorry / excuse me"],
+  ["Đẹp lắm", "very beautiful"]
+];
+
+/* Word-level meanings for every token in the dialogue */
+const WORD_TIPS = {
+  "xin":"please / I beg (polite)", "chào":"greeting (hello / goodbye)",
+  "khách":"guest / customer", "sạn":"(hotel element, in khách sạn)",
+  "nghe":"to listen / to answer (phone)", "đây":"here", "ạ":"polite particle",
+  "tôi":"I / me", "có":"to have / yes", "thể":"can / may", "giúp":"to help",
+  "gì":"what", "cho":"to give / for", "anh":"you (male)", "vâng":"yes (polite)",
+  "muốn":"to want / would like", "đặt":"to book / reserve", "phòng":"room",
+  "đơn":"single", "đôi":"double", "hay":"or", "lễ":"ceremony / reception",
+  "tân":"newcomer / new (lễ tân = receptionist)",
+  "đầy":"full", "đủ":"enough", "tiện":"convenient", "nghi":"facility",
+  "trong":"in / inside", "bao":"(part of bao gồm / bao lâu)", "lâu":"long (time)",
+  "từ":"from", "đến":"to / until", "tháng":"month", "ngày":"day / date",
+  "giá":"price", "thế":"how / that way", "nào":"which / what", "hả":"question particle (casual)",
+  "chị":"you (female, older)", "hai":"two", "triệu":"million", "đồng":"dong (currency)",
+  "một":"one / a", "đêm":"night", "đắt":"expensive", "càng":"more (in càng ngày càng)",
+  "phải":"must / right", "không":"not / no", "đâu":"not at all (emphasis)",
+  "bữa":"meal", "sáng":"morning / breakfast", "bao gồm":"to include", "chưa":"not yet",
+  "rồi":"already / yes", "nhìn":"to look / to see", "ra":"out", "hồ":"lake",
+  "được":"can / able to", "lỗi":"mistake (xin lỗi = sorry)", "tuy":"although",
+  "nhưng":"but", "vẫn":"still", "ngắm":"to look at / to enjoy the view",
+  "thành":"city (in thành phố)", "phố":"street / city", "đẹp":"beautiful",
+  "lắm":"very", "được":"can / able to", "năm":"five", "nữa":"more / again",
+  "sẽ":"will", "chứ":"question tag", "chắc":"sure / certain", "chắn":"certain",
+  "là":"to be", "tên":"name", "Nam":"Nam (first name)", "Cường":"Cường (name)",
+  "cám":"thank", "ơn":"thanks", "hẹn":"to arrange (to meet)", "gặp":"to meet",
+  "lại":"again", "thế":"that way / how", "cũng":"also / definitely (emphasis)",
+  "giữ":"to keep / to hold", "nhé":"okay? (friendly)", "lên":"up", "tới":"to / arrive",
+  "xem":"to see", "chìa":"key (chìa khóa)", "khóa":"lock / key",
+  "hộ":"on behalf / for (xem hộ)", "hộ chiếu":"passport", "loại":"type / kind",
+  "điều":"air / (điều hòa)", "hòa":"cool / harmonise"
+};
+
+/* Tokeniser: split Vietnamese text into clickable spans. Matches phrases first. */
+function renderClickable(text, container){
+  // Sort phrase tips longest first for greedy matching
+  const phrases = PHRASE_TIPS.slice().sort((a,b)=>b[0].length-a[0].length);
+  let i = 0;
+  const frag = document.createDocumentFragment();
+  const lower = text.toLowerCase();
+  while (i < text.length){
+    let matched = null;
+    for (const [p, en] of phrases){
+      if (lower.startsWith(p.toLowerCase(), i) && isBoundary(text, i, p.length)){
+        matched = {len:p.length, vi:text.substr(i,p.length), en};
+        break;
+      }
+    }
+    if (matched){
+      frag.appendChild(makeWord(matched.vi, matched.en, "phrase"));
+      i += matched.len;
+      continue;
+    }
+    const ch = text[i];
+    if (/[\s]/.test(ch) || /[.,!?;:"“”()\-–—]/.test(ch)){
+      frag.appendChild(document.createTextNode(ch));
+      i++;
+      continue;
+    }
+    // collect word
+    let j = i;
+    while (j < text.length && !/[\s.,!?;:"“”()\-–—]/.test(text[j])) j++;
+    const word = text.slice(i,j);
+    const tip = WORD_TIPS[word] || WORD_TIPS[word.toLowerCase()];
+    if (tip){
+      frag.appendChild(makeWord(word, tip, "word"));
+    } else {
+      const span = document.createElement("span");
+      span.textContent = word;
+      frag.appendChild(span);
+    }
+    i = j;
+  }
+  container.appendChild(frag);
+}
+function isBoundary(text, start, len){
+  const before = start === 0 || /[\s.,!?;:"“”()\-–—]/.test(text[start-1]);
+  const after = start+len >= text.length || /[\s.,!?;:"“”()\-–—]/.test(text[start+len]);
+  return before && after;
+}
+function makeWord(vi, en, type){
+  const s = document.createElement("span");
+  s.className = "w";
+  s.tabIndex = 0;
+  s.setAttribute("role","button");
+  s.dataset.vi = vi;
+  s.dataset.en = en;
+  s.dataset.type = type;
+  s.textContent = vi;
+  return s;
+}
+
+/* ---------- Tab / panel navigation ---------- */
+const tabs = document.querySelectorAll('nav.tabs button[role="tab"]');
+function showPanel(name){
+  document.querySelectorAll("section.panel").forEach(p=>p.classList.remove("active"));
+  const target = document.getElementById("panel-"+name);
+  if (target) target.classList.add("active");
+  tabs.forEach(t=>t.setAttribute("aria-selected", String(t.dataset.tab===name)));
+  hideTip();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+tabs.forEach(t=>t.addEventListener("click",()=>showPanel(t.dataset.tab)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showPanel(b.dataset.go)));
+document.querySelectorAll("[data-next]").forEach(b=>b.addEventListener("click",()=>showPanel(b.dataset.next)));
+
+/* ---------- Translation popover ---------- */
+const tipEl = document.getElementById("tip");
+const tipVi = document.getElementById("tip-vi");
+const tipEn = document.getElementById("tip-en");
+const tipType = document.getElementById("tip-type");
+let activeWord = null;
+
+function showTip(el){
+  if (activeWord && activeWord!==el) activeWord.classList.remove("active");
+  activeWord = el;
+  el.classList.add("active");
+  tipVi.textContent = el.dataset.vi;
+  tipEn.textContent = el.dataset.en;
+  tipType.textContent = el.dataset.type === "phrase" ? "Phrase" : "Word";
+  tipEl.classList.add("show");
+  const r = el.getBoundingClientRect();
+  const tw = Math.min(280, window.innerWidth - 24);
+  tipEl.style.width = tw+"px";
+  let left = r.left + window.scrollX;
+  let top = r.bottom + window.scrollY + 8;
+  // keep inside viewport
+  const maxLeft = window.scrollX + window.innerWidth - tw - 12;
+  if (left > maxLeft) left = Math.max(12, maxLeft);
+  if (left < 12) left = 12;
+  const vh = window.innerHeight;
+  if (r.bottom + 150 > vh) top = r.top + window.scrollY - 140;
+  tipEl.style.left = left+"px";
+  tipEl.style.top = top+"px";
+}
+function hideTip(){
+  tipEl.classList.remove("show");
+  if (activeWord){ activeWord.classList.remove("active"); activeWord=null; }
+}
+document.querySelector("#tip .tip-close").addEventListener("click", hideTip);
+document.addEventListener("click", e=>{
+  const w = e.target.closest(".w");
+  if (w){
+    e.stopPropagation();
+    if (activeWord===w) { hideTip(); return; }
+    showTip(w);
+    return;
+  }
+  if (!e.target.closest("#tip")) hideTip();
+});
+document.addEventListener("keydown", e=>{
+  if (e.key==="Escape") hideTip();
+  if ((e.key==="Enter"||e.key===" ") && e.target.classList && e.target.classList.contains("w")){
+    e.preventDefault(); e.target.click();
+  }
+});
+window.addEventListener("scroll", ()=>{ if (tipEl.classList.contains("show") && activeWord){ showTip(activeWord); } }, {passive:true});
+
+/* ---------- Render dialogue ---------- */
+const dlg = document.getElementById("dialogue");
+DIALOGUE.forEach(line=>{
+  const row = document.createElement("div");
+  row.className = "dialogue-line";
+  const sp = document.createElement("div");
+  sp.className = "speaker";
+  sp.textContent = line.sp + ":";
+  const body = document.createElement("div");
+  const vi = document.createElement("div");
+  vi.className = "vi-text";
+  renderClickable(line.vi, vi);
+  const en = document.createElement("div");
+  en.className = "en-text";
+  en.textContent = line.en;
+  body.appendChild(vi);
+  body.appendChild(en);
+  row.appendChild(sp);
+  row.appendChild(body);
+  dlg.appendChild(row);
+});
+
+const toggleEn = document.getElementById("toggle-en");
+toggleEn.addEventListener("click", ()=>{
+  const on = !dlg.classList.contains("show-en");
+  dlg.classList.toggle("show-en", on);
+  toggleEn.textContent = on ? "Hide English Translation" : "Show English Translation";
+  toggleEn.setAttribute("aria-pressed", String(on));
+});
+
+/* ---------- Google Drive audio loader ---------- */
+const driveInput = document.getElementById("drive-link");
+const audioMsg = document.getElementById("audio-msg");
+const audioPlayer = document.getElementById("audio-player");
+
+function showAudioMsg(text, cls){
+  audioMsg.className = "msg show "+cls;
+  audioMsg.textContent = text;
+}
+function extractDriveId(url){
+  let u;
+  try { u = new URL(url.trim()); } catch(e){ return null; }
+  if (u.protocol !== "https:") return null;
+  const host = u.hostname;
+  if (host !== "drive.google.com" && host !== "docs.google.com") return null;
+  const m1 = u.pathname.match(/\/file\/d\/([A-Za-z0-9_-]{10,})/);
+  if (m1) return m1[1];
+  const m2 = u.pathname.match(/\/open$/) ? u.searchParams.get("id") : null;
+  if (m2 && /^[A-Za-z0-9_-]{10,}$/.test(m2)) return m2;
+  const m3 = u.searchParams.get("id");
+  if (m3 && /^[A-Za-z0-9_-]{10,}$/.test(m3)) return m3;
+  return null;
+}
+function isDirectAudio(url){
+  try{
+    const u = new URL(url.trim());
+    return u.protocol==="https:" && /\.(mp3|m4a|wav|ogg|aac|flac)(\?.*)?$/i.test(u.pathname+u.search);
+  } catch(e){ return false; }
+}
+function loadAudio(){
+  const raw = driveInput.value.trim();
+  audioPlayer.innerHTML = "";
+  if (!raw){
+    showAudioMsg("Please paste a Google Drive audio link first.", "err");
+    return;
+  }
+  const id = extractDriveId(raw);
+  if (id){
+    const iframe = document.createElement("iframe");
+    iframe.src = "https://drive.google.com/file/d/"+id+"/preview";
+    iframe.width = "100%";
+    iframe.height = "80";
+    iframe.setAttribute("allow","autoplay");
+    iframe.setAttribute("loading","lazy");
+    iframe.style.border = "0";
+    iframe.style.borderRadius = "8px";
+    iframe.title = "Google Drive audio player";
+    audioPlayer.appendChild(iframe);
+    showAudioMsg("Player loaded. If it stays blank, check that the file is shared as “Anyone with the link” and try again.", "info");
+    return;
+  }
+  if (isDirectAudio(raw)){
+    const audio = document.createElement("audio");
+    audio.controls = true;
+    audio.preload = "metadata";
+    audio.style.width = "100%";
+    audio.src = raw;
+    audio.addEventListener("error", ()=>{
+      showAudioMsg("This audio file could not be played. Check that the link is accessible and points directly to an audio file.", "err");
+    });
+    audioPlayer.appendChild(audio);
+    showAudioMsg("Audio loaded.", "ok");
+    return;
+  }
+  showAudioMsg("This link is not a recognised Google Drive file link. Use a link like https://drive.google.com/file/d/FILE_ID/view. The file must be shared as “Anyone with the link”.", "err");
+}
+document.getElementById("load-audio").addEventListener("click", loadAudio);
+driveInput.addEventListener("keydown", e=>{ if (e.key==="Enter") loadAudio(); });
+
+/* ---------- Progress tracking ---------- */
+const STATE = {
+  matchDone:false,
+  quizzes:{g1:null,g2:null,g3:null,check:null},   // null = not complete; otherwise {score,total}
+  speakViewed:new Set(),
+  listenDone:false,
+  vocabDone:false,
+  exprDone:false
+};
+const PROGRESS_KEYS = ["vocab","grammar","check"]; // tracked exercises
+function refreshProgress(){
+  const done = {
+    vocab: STATE.matchDone,
+    grammar: ["g1","g2","g3"].every(k=>STATE.quizzes[k]),
+    check: !!STATE.quizzes.check
+  };
+  const count = [done.vocab, done.grammar, done.check].filter(Boolean).length;
+  const total = 3;
+  document.getElementById("progress-label").textContent = "Progress: "+count+" of "+total+" exercises complete";
+  document.getElementById("progress-fill").style.width = (count/total*100)+"%";
+  const d = document.querySelector('[data-done="vocab"]'); if (d) d.textContent = done.vocab?"✓ Complete":"";
+  const g = document.querySelector('[data-done="grammar"]'); if (g) g.textContent = done.grammar?"✓ Complete":"";
+  const c = document.querySelector('[data-done="check"]'); if (c) c.textContent = done.check?"✓ Complete":"";
+  renderReviewProgress();
+}
+
+/* ---------- Vocabulary ---------- */
+const VOCAB = [
+  {vi:"đặt", en:"to book", ex:"Tôi muốn đặt phòng.", exen:"I would like to book a room."},
+  {vi:"tiện nghi", en:"facility", ex:"Khách sạn này có nhiều tiện nghi.", exen:"This hotel has many facilities."},
+  {vi:"phòng đơn", en:"single room", ex:"Tôi muốn đặt một phòng đơn.", exen:"I want to book a single room."},
+  {vi:"phòng đôi", en:"double room", ex:"Phòng đôi có hai giường.", exen:"The double room has two beds."},
+  {vi:"đầy đủ", en:"enough / complete", ex:"Phòng này đầy đủ tiện nghi.", exen:"This room is fully equipped."},
+  {vi:"thành phố", en:"city", ex:"Khách sạn ở trung tâm thành phố.", exen:"The hotel is in the city centre."},
+  {vi:"giữ", en:"to keep / to hold", ex:"Xin giữ phòng cho tôi.", exen:"Please hold a room for me."},
+  {vi:"giá", en:"price", ex:"Giá phòng này bao nhiêu?", exen:"How much is this room?"},
+  {vi:"bao gồm", en:"to include", ex:"Giá phòng bao gồm bữa sáng.", exen:"The room price includes breakfast."},
+  {vi:"bữa sáng", en:"breakfast", ex:"Tôi ăn bữa sáng lúc 7 giờ.", exen:"I eat breakfast at 7 o'clock."},
+  {vi:"ngắm", en:"to look at / to enjoy the view", ex:"Chúng tôi ngắm thành phố từ phòng.", exen:"We enjoy the city view from the room."},
+  {vi:"hồ", en:"lake", ex:"Phòng này nhìn ra hồ.", exen:"This room has a view of the lake."},
+  {vi:"nhớ", en:"to remember", ex:"Tôi nhớ tên khách sạn.", exen:"I remember the name of the hotel."},
+  {vi:"nhìn", en:"to look / to see", ex:"Cửa sổ nhìn ra biển.", exen:"The window looks out to the sea."}
+];
+
+const vGrid = document.getElementById("vocab-grid");
+VOCAB.forEach((v,idx)=>{
+  const card = document.createElement("div");
+  card.className = "vcard";
+  card.innerHTML = '<div class="vi"></div><div class="ven"></div><button class="btn ghost small" aria-expanded="false">Show example</button><div class="ex"><div class="ex-vi"></div><div class="ex-en" style="color:var(--muted);margin-top:4px;font-style:italic"></div></div>';
+  card.querySelector(".vi").textContent = v.vi;
+  card.querySelector(".ven").textContent = v.en;
+  card.querySelector(".ex-vi").textContent = v.ex;
+  card.querySelector(".ex-en").textContent = v.exen;
+  const btn = card.querySelector("button");
+  const ex = card.querySelector(".ex");
+  btn.addEventListener("click", ()=>{
+    const open = !ex.classList.contains("show");
+    ex.classList.toggle("show", open);
+    btn.textContent = open ? "Hide example" : "Show example";
+    btn.setAttribute("aria-expanded", String(open));
+  });
+  vGrid.appendChild(card);
+});
+
+/* Matching game */
+let matchPairs = [];
+let selVi = null, selEn = null;
+let matchCorrect = 0, matchAttempts = 0;
+const matchedSet = new Set();
+const matchVi = document.getElementById("match-vi");
+const matchEn = document.getElementById("match-en");
+const matchFb = document.getElementById("match-fb");
+const matchScore = document.getElementById("match-score");
+
+function shuffle(arr){
+  const a = arr.slice();
+  for (let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function setupMatch(){
+  matchPairs = VOCAB.map((v,i)=>({id:i, vi:v.vi, en:v.en}));
+  matchedSet.clear();
+  matchCorrect = 0; matchAttempts = 0;
+  selVi = null; selEn = null;
+  matchVi.innerHTML = ""; matchEn.innerHTML = "";
+  shuffle(matchPairs).forEach(p=>{
+    const b = document.createElement("button");
+    b.className = "opt"; b.dataset.id = p.id; b.textContent = p.vi;
+    b.addEventListener("click", ()=>pickVi(b, p.id));
+    matchVi.appendChild(b);
+  });
+  shuffle(matchPairs).forEach(p=>{
+    const b = document.createElement("button");
+    b.className = "opt"; b.dataset.id = p.id; b.textContent = p.en;
+    b.addEventListener("click", ()=>pickEn(b, p.id));
+    matchEn.appendChild(b);
+  });
+  matchFb.className = "feedback";
+  matchFb.innerHTML = "";
+  updateMatchScore();
+}
+function pickVi(btn, id){
+  if (matchedSet.has(id)) return;
+  matchVi.querySelectorAll(".opt").forEach(b=>b.classList.remove("sel"));
+  btn.classList.add("sel"); selVi = {btn,id};
+  tryMatch();
+}
+function pickEn(btn, id){
+  if (matchedSet.has(id)) return;
+  matchEn.querySelectorAll(".opt").forEach(b=>b.classList.remove("sel"));
+  btn.classList.add("sel"); selEn = {btn,id};
+  tryMatch();
+}
+function tryMatch(){
+  if (!selVi || !selEn) return;
+  matchAttempts++;
+  const v = selVi, e = selEn;
+  selVi = null; selEn = null;
+  v.btn.classList.remove("sel"); e.btn.classList.remove("sel");
+  if (v.id === e.id){
+    matchCorrect++;
+    matchedSet.add(v.id);
+    v.btn.classList.add("matched"); e.btn.classList.add("matched");
+    v.btn.disabled = true; e.btn.disabled = true;
+    const item = VOCAB[v.id];
+    matchFb.className = "feedback show right";
+    matchFb.innerHTML = '<div class="fb-title">Correct!</div>'+escapeHtml(item.vi)+" means “"+escapeHtml(item.en)+"”.";
+    if (matchedSet.size === VOCAB.length){
+      STATE.matchDone = true;
+      matchFb.innerHTML += '<div style="margin-top:6px">All matched! Score: '+matchCorrect+' / '+VOCAB.length+'.</div>';
+      refreshProgress();
+    }
+  } else {
+    const item = VOCAB[v.id];
+    const chosenEn = VOCAB[e.id].en;
+    matchFb.className = "feedback show wrong";
+    matchFb.innerHTML = '<div class="fb-title">Not quite.</div>'+
+      escapeHtml(item.vi)+" means “"+escapeHtml(item.en)+"”, not “"+escapeHtml(chosenEn)+"”. Try again.";
+  }
+  updateMatchScore();
+}
+function updateMatchScore(){
+  const pct = matchAttempts ? Math.round(matchCorrect/matchAttempts*100) : 0;
+  matchScore.textContent = "Score: "+matchCorrect+" / "+VOCAB.length+" matched  ·  Accuracy: "+pct+"%";
+}
+document.getElementById("match-reset").addEventListener("click", ()=>{
+  setupMatch();
+});
+setupMatch();
+
+/* ---------- Quiz engine ---------- */
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+/* Each quiz item:
+   type: "mc" (multiple choice) | "fill" (fill in blank, choose from options) | "short" (free text, accepts answers list)
+   q: question text (HTML-safe text), opts: array (mc/fill), answer: index or string, answers: list for short,
+   why: explanation of correct, whyWrong: optional map of wrong option index -> explanation
+*/
+
+function buildQuiz(containerId, scoreId, key, items){
+  const container = document.getElementById(containerId);
+  const scoreBox = document.getElementById(scoreId);
+  container.innerHTML = "";
+  scoreBox.style.display = "none";
+  const results = new Array(items.length).fill(null); // null unanswered, true/false
+  let answered = 0;
+
+  items.forEach((it, idx)=>{
+    const card = document.createElement("div");
+    card.className = "q";
+    card.dataset.idx = idx;
+    const num = document.createElement("div");
+    num.className = "qnum";
+    num.textContent = "Question " + (idx+1);
+    const qt = document.createElement("div");
+    qt.className = "qtext";
+    qt.textContent = it.q;
+    card.appendChild(num);
+    card.appendChild(qt);
+
+    let getValue;
+    if (it.type === "mc" || it.type === "fill"){
+      const optsWrap = document.createElement("div");
+      optsWrap.className = "opts";
+      const name = key+"-"+idx;
+      it.opts.forEach((o,oi)=>{
+        const lab = document.createElement("label");
+        const inp = document.createElement("input");
+        inp.type = "radio";
+        inp.name = name;
+        inp.value = oi;
+        lab.appendChild(inp);
+        lab.appendChild(document.createTextNode(o));
+        optsWrap.appendChild(lab);
+      });
+      card.appendChild(optsWrap);
+      getValue = ()=>{
+        const sel = card.querySelector('input[type=radio]:checked');
+        return sel ? Number(sel.value) : null;
+      };
+    } else {
+      const inp = document.createElement("input");
+      inp.type = "text";
+      inp.placeholder = "Type your answer in English or Vietnamese";
+      inp.autocomplete = "off";
+      inp.setAttribute("aria-label","Your answer");
+      card.appendChild(inp);
+      getValue = ()=>inp.value.trim();
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+    const submit = document.createElement("button");
+    submit.className = "btn small";
+    submit.textContent = "Submit";
+    const reveal = document.createElement("button");
+    reveal.className = "btn ghost small";
+    reveal.textContent = "Show answer";
+    actions.appendChild(submit);
+    actions.appendChild(reveal);
+    card.appendChild(actions);
+
+    const fb = document.createElement("div");
+    fb.className = "reveal";
+    card.appendChild(fb);
+
+    function lock(){
+      card.classList.add("locked");
+      card.querySelectorAll("input").forEach(i=>i.disabled=true);
+      submit.disabled = true;
+    }
+
+    submit.addEventListener("click", ()=>{
+      if (results[idx] !== null) return; // prevent double counting
+      const val = getValue();
+      if (val === null || val === ""){
+        fb.className = "reveal show";
+        fb.innerHTML = "Please choose or type an answer first.";
+        return;
+      }
+      let correct = false;
+      if (it.type === "short"){
+        correct = matchShort(val, it.answers);
+      } else {
+        correct = (val === it.answer);
+      }
+      results[idx] = correct;
+      answered++;
+      lock();
+      reveal.disabled = true;
+      fb.className = "reveal show";
+      const wrongExp = (!correct && it.type!=="short" && it.whyWrong && it.whyWrong[val]) ? it.whyWrong[val] : "";
+      if (correct){
+        fb.innerHTML = '<strong style="color:var(--ok)">Correct!</strong> '+escapeHtml(it.why);
+      } else {
+        const correctText = it.type==="short" ? it.answers[0] : it.opts[it.answer];
+        fb.innerHTML = '<strong style="color:var(--bad)">Not quite.</strong> The correct answer is: <strong>'+escapeHtml(correctText)+'</strong>.<br>'+escapeHtml(it.why)+
+          (wrongExp? '<br><em>Why your answer does not fit:</em> '+escapeHtml(wrongExp):"");
+      }
+      updateQuizScore(key, scoreId, results, items.length);
+    });
+
+    reveal.addEventListener("click", ()=>{
+      if (results[idx] !== null) return;
+      // Reveal counts as incorrect and is locked to prevent recounting
+      results[idx] = false;
+      answered++;
+      lock();
+      submit.disabled = true;
+      reveal.disabled = true;
+      const correctText = it.type==="short" ? it.answers[0] : it.opts[it.answer];
+      fb.className = "reveal show";
+      fb.innerHTML = 'The correct answer is: <strong>'+escapeHtml(correctText)+'</strong>.<br>'+escapeHtml(it.why);
+      updateQuizScore(key, scoreId, results, items.length);
+    });
+
+    container.appendChild(card);
+  });
+}
+
+function matchShort(val, answers){
+  const norm = s => String(s).toLowerCase().normalize("NFC").replace(/[.,!?;:"'“”()\-]/g,"").replace(/\s+/g," ").trim();
+  const v = norm(val);
+  return answers.some(a => norm(a) === v);
+}
+
+function updateQuizScore(key, scoreId, results, total){
+  const answered = results.filter(r=>r!==null).length;
+  const correct = results.filter(r=>r===true).length;
+  const box = document.getElementById(scoreId);
+  box.style.display = "block";
+  let msg = '<div>Answered: '+answered+' / '+total+'</div><div class="big">Score: '+correct+' / '+total+'</div>';
+  if (answered === total){
+    msg += '<div style="margin-top:6px">Quiz complete.</div>';
+    if (key === "check") STATE.quizzes.check = {score:correct,total};
+    else STATE.quizzes[key] = {score:correct,total};
+    refreshProgress();
+  }
+  box.innerHTML = msg;
+}
+
+/* ---------- Grammar tabs ---------- */
+document.querySelectorAll(".gram-tabs button").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    const id = b.dataset.gram;
+    document.querySelectorAll(".gram-tabs button").forEach(x=>x.setAttribute("aria-selected", String(x===b)));
+    document.querySelectorAll(".gram-block").forEach(g=>g.classList.toggle("active", g.id===id));
+  });
+});
+
+/* ---------- Grammar practice ---------- */
+const G1_ITEMS = [
+  {type:"mc", q:"Choose the correct sentence meaning “She will definitely be happy.”",
+   opts:["Cô ấy thế nào cũng vui.","Cô ấy vui như thế nào?","Cô ấy thế nào vui không?","Cô ấy vui cũng thế nào."],
+   answer:0, why:"“Thế nào… cũng” + verb/adjective expresses a strong expectation: “will definitely…”.",
+   whyWrong:{1:"This asks a question (“how is she happy?”). The structure is a statement, not a question.", 2:"The question “không?” does not fit the confident prediction.", 3:"The word order is wrong; “cũng” must come after “thế nào” + subject."}},
+  {type:"fill", q:"Complete: ___ anh ấy cũng đi học đúng giờ.",
+   opts:["Thế nào","Như thế nào","Tuy","Càng"], answer:0,
+   why:"“Thế nào… cũng” signals a firm expectation: he will definitely be on time.",
+   whyWrong:{1:"“Như thế nào” is a question (“how?”), not a prediction.", 2:"“Tuy” introduces contrast, which is not the meaning here.", 3:"“Càng” is used in “càng ngày càng”, not in this structure."}},
+  {type:"mc", q:"Which word completes the sentence? “Trời ___ mưa.” (It will definitely rain.)",
+   opts:["thế nào cũng","tuy… nhưng","càng ngày càng","như thế nào"], answer:0,
+   why:"“Thế nào cũng” expresses a confident prediction about the weather.",
+   whyWrong:{1:"“Tuy… nhưng” expresses contrast, not prediction.", 2:"“Càng ngày càng” describes gradual change.", 3:"“Như thế nào” asks “how?”, which does not fit here."}},
+  {type:"mc", q:"Choose the best reply: “Bạn có đến buổi tiệc không?” (Will you come to the party?)  Reply: “Tôi ___ đến.”",
+   opts:["thế nào cũng","tuy","ngày càng","mặc dù"], answer:0,
+   why:"A confident “I will definitely come” uses “thế nào… cũng”.",
+   whyWrong:{1:"“Tuy” introduces a contrast and needs a second clause with “nhưng”.", 2:"“Ngày càng” describes a gradual change, not a firm commitment.", 3:"“Mặc dù” introduces a concession and needs “nhưng… vẫn”."}},
+  {type:"short", q:"Translate into English: “Thế nào anh ấy cũng đi du lịch.”",
+   answers:["He will definitely travel.","He will definitely go travelling.","He will definitely go on a trip.","He will definitely travel abroad","He definitely will travel."],
+   why:"“Thế nào… cũng” means “will definitely”. Accept any natural English that keeps this confidence."},
+  {type:"fill", q:"Complete the dialogue: “Thế nào chị ___ phải giữ phòng đẹp cho tôi nhé.”",
+   opts:["cũng","nhưng","ngày càng","tuy"], answer:0,
+   why:"“Cũng” completes “thế nào… cũng”, as in the dialogue: “You must definitely keep a nice room for me.”",
+   whyWrong:{1:"“Nhưng” introduces contrast and does not complete this structure.", 2:"“Ngày càng” means “more and more”, which does not fit here.", 3:"“Tuy” starts a contrast clause and is not used here."}}
+];
+
+const G2_ITEMS = [
+  {type:"mc", q:"Choose the correct structure: “Although it is raining, she still goes on a picnic.”",
+   opts:["Tuy trời mưa nhưng cô ấy vẫn đi pic nic.","Tuy trời mưa cô ấy đi pic nic.","Cô ấy vẫn đi pic nic tuy trời mưa.","Trời mưa cô ấy thế nào cũng đi pic nic."],
+   answer:0, why:"“Tuy… nhưng… vẫn” (although… but… still) matches the English exactly.",
+   whyWrong:{1:"It has “tuy” but no “vẫn” to show the result remains true, and it lacks “nhưng”.", 2:"This alternative word order is valid only if “dù/mặc dù” is used; here it lacks the contrast words.", 3:"“Thế nào… cũng” expresses a prediction, not a contrast."}},
+  {type:"fill", q:"Complete: Dù trời mưa ___ ông ấy vẫn ra ngoài.",
+   opts:["nhưng","thế nào","ngày càng","cũng"], answer:0,
+   why:"“Dù… nhưng… vẫn” is the main pattern: “Although it is raining, he still goes out.”",
+   whyWrong:{1:"“Thế nào” does not introduce a contrasting result.", 2:"“Ngày càng” describes gradual change.", 3:"“Cũng” means “also” and does not link the contrast."}},
+  {type:"mc", q:"Which alternative structure is correct? “I still go to school even though I am tired.”",
+   opts:["Tôi vẫn đi học dù tôi mệt.","Tôi dù mệt vẫn đi học nhưng.","Tôi đi học tuy vẫn mệt.","Tôi mệt dù nhưng đi học."],
+   answer:0, why:"The main clause comes first, then “dù” + the contrasting condition.",
+   whyWrong:{1:"Mixing “dù” and “nhưng” in this way is not the pattern.", 2:"“Tuy” must come before the contrasting clause, not after the main verb.", 3:"The word order breaks the pattern and does not express contrast clearly."}},
+  {type:"mc", q:"In the dialogue, what does “Tuy… nhưng… vẫn” mean in “Tuy phòng đó không nhìn ra hồ được nhưng vẫn ngắm thành phố được”?",
+   opts:["Although the room has no lake view, you can still enjoy the city view.","Because the room has a lake view, you can see the city.","The room has a lake view and a city view.","The room is too expensive, so you cannot see the city."],
+   answer:0, why:"“Tuy” introduces the limitation, and “vẫn” shows the city view is still possible.",
+   whyWrong:{1:"“Because” expresses a cause, not contrast, and the room does not have a lake view.", 2:"This ignores the contrast in the sentence.", 3:"Price is not mentioned in this sentence."}},
+  {type:"short", q:"Write “although it is cold, I still go out” in Vietnamese using “tuy… nhưng… vẫn” (any correct form).",
+   answers:["Tuy trời lạnh nhưng tôi vẫn ra ngoài.","Tuy lạnh nhưng tôi vẫn ra ngoài.","Tuy trời lạnh, tôi vẫn ra ngoài.","Dù trời lạnh nhưng tôi vẫn ra ngoài.","Mặc dù trời lạnh nhưng tôi vẫn ra ngoài."],
+   why:"Use a contrast opener (tuy / dù / mặc dù), the contrasting condition, then “nhưng” (optional) and “vẫn” before the verb."},
+  {type:"fill", q:"Complete: Tôi vẫn đi học ___ tôi mệt.",
+   opts:["dù","nhưng","vẫn","ngày càng"], answer:0,
+   why:"“Dù” in the alternative structure means “even though”: “I still go to school even though I am tired.”",
+   whyWrong:{1:"“Nhưng” cannot start the contrasting clause after the main verb in this pattern.", 2:"“Vẫn” is already in the main clause; you need a contrast word here.", 3:"“Ngày càng” describes a gradual change, not contrast."}}
+];
+
+const G3_ITEMS = [
+  {type:"mc", q:"Choose the correct sentence: “The city is getting more and more crowded.”",
+   opts:["Thành phố ngày càng đông.","Thành phố đông ngày càng.","Thành phố càng đông ngày.","Thành phố ngày đông càng."],
+   answer:0, why:"“Ngày càng” + adjective (đông = crowded) shows a continuing change.",
+   whyWrong:{1:"“Ngày càng” must come before the adjective, not after it.", 2:"“Càng… ngày” is not the correct word order for this structure.", 3:"The word order is wrong; use “ngày càng” + adjective."}},
+  {type:"fill", q:"Complete: Họ nói tiếng Việt ___ giống người Việt Nam.",
+   opts:["ngày càng","thế nào","tuy","mặc dù"], answer:0,
+   why:"“Ngày càng” shows a gradual change: they increasingly sound like Vietnamese people.",
+   whyWrong:{1:"“Thế nào” asks “how?” or expresses a prediction, not gradual change.", 2:"“Tuy” introduces contrast.", 3:"“Mặc dù” introduces a concession, not a trend."}},
+  {type:"mc", q:"Which phrase best expresses “I speak Vietnamese better and better”?",
+   opts:["Tôi nói tiếng Việt càng ngày càng tốt.","Tôi nói tiếng Việt tuy tốt.","Tôi nói tiếng Việt thế nào cũng tốt.","Tôi nói tiếng Việt dù tốt."],
+   answer:0, why:"“Càng ngày càng” + adjective shows an improving trend.",
+   whyWrong:{1:"“Tuy” introduces contrast, which does not fit a gradual improvement.", 2:"“Thế nào… cũng” expresses a firm prediction, not a trend.", 3:"“Dù” introduces a concession; it does not express gradual change."}},
+  {type:"mc", q:"In the dialogue, the guest asks “Giá phòng ngày càng đắt phải không chị?” What does he mean?",
+   opts:["Room prices are getting more and more expensive.","Room prices are cheap today.","The room is already full.","Breakfast is not included."],
+   answer:0, why:"“Ngày càng đắt” = getting more and more expensive, a continuing trend.",
+   whyWrong:{1:"“Đắt” means expensive, so “cheap” is the opposite.", 2:"Nothing about fullness is mentioned in this line.", 3:"Breakfast is discussed in a different line of the dialogue."}},
+  {type:"short", q:"Translate into English: “Cây hoa càng ngày càng lớn.”",
+   answers:["The flower tree is getting bigger and bigger.","The flower plant is getting bigger and bigger.","The tree is getting bigger and bigger.","The flower is getting bigger and bigger.","The flower tree is growing bigger and bigger."],
+   why:"“Càng ngày càng lớn” = getting bigger and bigger, a gradual increase."},
+  {type:"fill", q:"Complete: Thành phố ___ đông.",
+   opts:["ngày càng","thế nào cũng","tuy","dù"], answer:0,
+   why:"“Ngày càng đông” = the city is getting more and more crowded.",
+   whyWrong:{1:"“Thế nào cũng” expresses a firm prediction, which is not the meaning here.", 2:"“Tuy” introduces contrast.", 3:"“Dù” introduces a concession."}}
+];
+
+buildQuiz("quiz-g1","score-g1","g1",G1_ITEMS);
+buildQuiz("quiz-g2","score-g2","g2",G2_ITEMS);
+buildQuiz("quiz-g3","score-g3","g3",G3_ITEMS);
+
+/* ---------- Role-play ---------- */
+const ROLE = {
+  Receptionist:{
+    sit:"A guest calls your hotel. Practise answering: greet the guest, ask what room type they want, ask how long they will stay, and tell them the price per night.",
+    bank:[["Tôi có thể giúp gì cho anh?","May I help you?"],["Anh muốn phòng đơn hay phòng đôi?","Would you like a single or double room?"],["Anh ở trong bao lâu ạ?","How long will you stay?"],["Phòng đơn là hai triệu đồng một ngày đêm.","A single room is two million dong per night."],["Giá này đã bao gồm bữa sáng.","This price includes breakfast."]]
+  },
+  Guest:{
+    sit:"You are calling a hotel. Ask whether a double room is available, how much it costs, and whether breakfast is included.",
+    bank:[["Tôi muốn đặt phòng.","I would like to book a room."],["Phòng đôi bao nhiêu tiền một đêm?","How much is a double room per night?"],["Giá phòng đã bao gồm bữa sáng chưa?","Does the room rate include breakfast?"],["Trong phòng có điều hòa không?","Is there air conditioning in the room?"],["Phòng có nhìn ra hồ không?","Does the room have a lake view?"]]
+  }
+};
+document.querySelectorAll("[data-role]").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    const r = ROLE[b.dataset.role];
+    document.querySelectorAll("[data-role]").forEach(x=>x.setAttribute("aria-pressed", String(x===b)));
+    document.getElementById("roleplay-area").style.display = "block";
+    document.getElementById("role-situation").textContent = (b.dataset.role==="Guest" ? "Role: Guest. " : "Role: Receptionist. ")+r.sit;
+    const bank = document.getElementById("role-bank");
+    bank.innerHTML = "";
+    r.bank.forEach(([vi,en])=>{
+      const li = document.createElement("li");
+      const span = makeWord(vi, en, "phrase");
+      span.tabIndex = 0;
+      li.appendChild(span);
+      const e = document.createElement("span");
+      e.style.color = "var(--muted)";
+      e.style.marginLeft = "8px";
+      e.textContent = "— "+en;
+      li.appendChild(e);
+      bank.appendChild(li);
+    });
+  });
+});
+
+/* ---------- Comprehension check ---------- */
+const CHECK_ITEMS = [
+  {type:"short", q:"Khách sạn có tên là gì?", answers:["Sofitel","Khách sạn Sofitel","Sofitel hotel","The Sofitel","Sofitel Hotel"],
+   why:"The receptionist answers the phone: “Khách sạn Sofitel nghe đây ạ.” (Sofitel Hotel, listening.)"},
+  {type:"mc", q:"Khách muốn loại phòng nào?", opts:["Phòng đôi","Phòng đơn","Phòng suite","Phòng có view hồ"], answer:1,
+   why:"The guest says: “Cho tôi một phòng đơn.” (A single room for me, please.)",
+   whyWrong:{0:"The guest asked about a double room only as an option; he chose “phòng đơn”.", 2:"No suite is mentioned in the dialogue.", 3:"He asked about a lake view, but he did not choose it as his room type."}},
+  {type:"short", q:"Khách ở từ ngày nào đến ngày nào?", answers:["15 August to 17 August","15 to 17 August","from 15 August to 17 August","15 August - 17 August","from the 15th to the 17th of August","15-17 August","Từ 15 tháng 8 đến 17 tháng 8","15 tháng 8 đến 17 tháng 8"],
+   why:"The guest says: “Tôi ở từ 15 tháng 8 đến 17 tháng 8.” (From 15 August to 17 August.)"},
+  {type:"mc", q:"Phòng đơn giá bao nhiêu một đêm?", opts:["1 triệu đồng","2 triệu đồng","3 triệu đồng","5 triệu đồng"], answer:1,
+   why:"The receptionist says: “Phòng đơn là hai triệu đồng một ngày đêm.” (Two million dong per night.)",
+   whyWrong:{0:"“Một triệu” means one million, which is not the price given.", 2:"“Ba triệu” means three million, which is not stated.", 3:"“Năm triệu” means five million, which is not stated."}},
+  {type:"mc", q:"Giá phòng có bao gồm bữa sáng không?", opts:["Có","Không","Hội thoại không nói","Chỉ vào cuối tuần"], answer:0,
+   why:"The receptionist says “Có rồi anh ạ.” (Yes, it does.) after the guest asks whether breakfast is included.",
+   whyWrong:{1:"The receptionist confirms breakfast is included.", 2:"The question is answered directly in the dialogue.", 3:"No weekend condition is mentioned."}},
+  {type:"mc", q:"Phòng có thể nhìn ra hồ không?", opts:["Có, phòng có view hồ","Không, phòng không nhìn ra hồ","Không rõ","Chỉ ở tầng cao nhất"], answer:1,
+   why:"The receptionist says: “Tuy phòng đó không nhìn ra hồ được…” (Although that room does not have a lake view…).",
+   whyWrong:{0:"The receptionist says the room does not overlook the lake.", 2:"The answer is stated clearly in the dialogue.", 3:"Floors are not mentioned."}},
+  {type:"short", q:"Khách vẫn có thể ngắm gì thay thế?", answers:["The city view","City view","A view of the city","The view of the city","Thành phố","Ngắm thành phố","thành phố"],
+   why:"The receptionist says: “…vẫn ngắm thành phố được, đẹp lắm.” (…you can still enjoy the city view, it is very beautiful.)"},
+  {type:"mc", q:"Khi nào khách sẽ đến?", opts:["Ngày mai","5 ngày nữa","Tháng sau","Ngày 15 tháng 8"], answer:1,
+   why:"The guest says: “5 ngày nữa tôi sẽ đến.” (I will arrive in 5 days.)",
+   whyWrong:{0:"“Ngày mai” means tomorrow, which is not used here.", 2:"“Tháng sau” would mean next month, which is not stated.", 3:"15 August is the start of his stay, not his arrival time as stated."}},
+  {type:"mc", q:"Lễ tân hỏi gì ở cuối hội thoại?", opts:["Anh tên là gì?","Anh ở trong bao lâu?","Anh có muốn ăn sáng không?","Anh muốn phòng nào?"], answer:0,
+   why:"The receptionist asks: “Xin lỗi, anh tên là gì?” (Sorry, what is your name?)",
+   whyWrong:{1:"This question was asked earlier in the dialogue, not at the end.", 2:"Breakfast was discussed earlier, not at the end.", 3:"The room type was asked earlier."}},
+  {type:"short", q:"Khách yêu cầu lễ tân làm gì?", answers:["Keep a nice room for him","To keep a nice room for me","Hold a nice room for him","Reserve a beautiful room for him","Keep the room for me","Keep a good room for me","Hold a nice room","Keep a beautiful room","Giữ phòng đẹp cho tôi","giữ phòng đẹp"],
+   why:"The guest says: “Thế nào chị cũng phải giữ phòng đẹp cho tôi nhé.” (You must definitely keep a nice room for me, okay?)"}
+];
+buildQuiz("check-quiz","check-score","check",CHECK_ITEMS);
+
+(function(){
+  const b = document.getElementById("open-sample-btn");
+  const box = document.getElementById("open-sample");
+  b.addEventListener("click", ()=>{
+    const on = box.style.display === "none";
+    box.style.display = on ? "block" : "none";
+    b.textContent = on ? "Hide sample answer" : "Show sample answer";
+    b.setAttribute("aria-expanded", String(on));
+  });
+})();
+
+document.getElementById("check-reset").addEventListener("click", ()=>{
+  STATE.quizzes.check = null;
+  buildQuiz("check-quiz","check-score","check",CHECK_ITEMS);
+  refreshProgress();
+});
+
+/* ---------- Speaking practice ---------- */
+const SPEAK = [
+  {topic:"A", title:"Personal travel experiences", items:[
+    {vi:"Anh/chị thường đi du lịch ở đâu?", en:"Where do you usually travel?", vocab:["đi du lịch – to travel","thường – usually","ở đâu – where"]},
+    {vi:"Anh/chị thích đi du lịch một mình hay đi với bạn bè? Tại sao?", en:"Do you prefer to travel alone or with friends? Why?", vocab:["một mình – alone","với bạn bè – with friends","tại sao – why"]},
+    {vi:"Anh/chị đã bao giờ ở khách sạn chưa?", en:"Have you ever stayed in a hotel?", vocab:["đã bao giờ – ever","ở khách sạn – to stay in a hotel","chưa – yet / not yet"]},
+    {vi:"Anh/chị thích ở khách sạn hay homestay hơn?", en:"Do you prefer staying in a hotel or a homestay?", vocab:["homestay – homestay","thích… hơn – prefer","khách sạn – hotel"]},
+    {vi:"Khi đi du lịch, anh/chị thường ở bao lâu?", en:"When you travel, how long do you usually stay?", vocab:["khi – when","bao lâu – how long","thường – usually"]}
+  ], follow:["Tại sao?","Anh/chị có thể kể thêm không?","Khi nào?","Với ai?","Anh/chị cảm thấy thế nào?","Anh/chị có ví dụ không?"]},
+  {topic:"B", title:"Choosing a hotel", items:[
+    {vi:"Khi đặt phòng khách sạn, anh/chị thường quan tâm đến điều gì?", en:"When booking a hotel room, what do you usually care about?", vocab:["đặt phòng – to book a room","quan tâm – to care about","điều gì – what"]},
+    {vi:"Anh/chị thích phòng có view thành phố, view hồ hay view biển?", en:"Do you prefer a room with a city view, a lake view, or a sea view?", vocab:["view – view","thành phố – city","hồ – lake","biển – sea"]},
+    {vi:"Theo anh/chị, một khách sạn tốt cần có những tiện nghi gì?", en:"In your opinion, what facilities should a good hotel have?", vocab:["tiện nghi – facilities","khách sạn – hotel","tốt – good"]},
+    {vi:"Anh/chị có sẵn sàng trả nhiều tiền hơn cho một phòng đẹp không? Tại sao?", en:"Are you willing to pay more for a beautiful room? Why?", vocab:["sẵn sàng – willing","trả tiền – to pay","đẹp – beautiful"]},
+    {vi:"Anh/chị thích khách sạn ở trung tâm thành phố hay ở nơi yên tĩnh?", en:"Do you prefer a hotel in the city centre or somewhere quiet?", vocab:["trung tâm – centre","yên tĩnh – quiet","nơi – place"]}
+  ], follow:["Tại sao?","Anh/chị có thể kể thêm không?","Khi nào?","Với ai?","Anh/chị cảm thấy thế nào?","Anh/chị có ví dụ không?"]},
+  {topic:"C", title:"Prices and services", items:[
+    {vi:"Anh/chị nghĩ giá khách sạn ở thành phố lớn có đắt không?", en:"Do you think hotel prices in big cities are expensive?", vocab:["giá – price","thành phố lớn – big city","đắt – expensive"]},
+    {vi:"Anh/chị có thường đặt phòng trước khi đi du lịch không?", en:"Do you usually book a room before travelling?", vocab:["đặt phòng trước – to book in advance","thường – usually"]},
+    {vi:"Anh/chị có muốn bữa sáng được bao gồm trong giá phòng không?", en:"Would you like breakfast to be included in the room price?", vocab:["bữa sáng – breakfast","bao gồm – to include","giá phòng – room price"]},
+    {vi:"Nếu khách sạn không có phòng như mong muốn, anh/chị sẽ làm gì?", en:"If the hotel does not have the room you want, what will you do?", vocab:["mong muốn – to wish for","sẽ làm gì – what will you do"]},
+    {vi:"Anh/chị thích tự đặt phòng trên mạng hay gọi điện trực tiếp cho khách sạn?", en:"Do you prefer booking online yourself or calling the hotel directly?", vocab:["trên mạng – online","gọi điện – to call","trực tiếp – directly"]}
+  ], follow:["Tại sao?","Anh/chị có thể kể thêm không?","Khi nào?","Với ai?","Anh/chị cảm thấy thế nào?","Anh/chị có ví dụ không?"]},
+  {topic:"D", title:"Experiences and opinions", items:[
+    {vi:"Anh/chị đã bao giờ gặp vấn đề khi ở khách sạn chưa?", en:"Have you ever had a problem while staying at a hotel?", vocab:["gặp vấn đề – to have a problem","khi ở khách sạn – while staying at a hotel"]},
+    {vi:"Điều gì khiến anh/chị cảm thấy thoải mái khi ở một khách sạn?", en:"What makes you feel comfortable when staying at a hotel?", vocab:["điều gì – what","thoải mái – comfortable","khiến – to cause"]},
+    {vi:"Anh/chị nghĩ nhân viên khách sạn nên nói chuyện với khách như thế nào?", en:"How do you think hotel staff should speak to guests?", vocab:["nhân viên – staff","nói chuyện – to talk","khách – guest"]},
+    {vi:"Theo anh/chị, điều gì quan trọng hơn: giá rẻ hay dịch vụ tốt?", en:"In your opinion, what is more important: a low price or good service?", vocab:["giá rẻ – low price","dịch vụ tốt – good service","quan trọng – important"]},
+    {vi:"Nếu giới thiệu một nơi đẹp ở quê hương mình, anh/chị sẽ giới thiệu nơi nào?", en:"If you were to recommend a beautiful place in your homeland, which place would you recommend?", vocab:["giới thiệu – to recommend","quê hương – homeland","nơi – place"]}
+  ], follow:["Tại sao?","Anh/chị có thể kể thêm không?","Khi nào?","Với ai?","Anh/chị cảm thấy thế nào?","Anh/chị có ví dụ không?"]},
+  {topic:"E", title:"Imagine a situation", situations:[
+    {vi:"Tình huống 1: Đặt phòng", en:"Situation 1: Booking a room", text:"You are calling a hotel in Vietnam. You want to book a single room for two nights. Ask about the price, breakfast, and the room view.", vocab:["đặt phòng – to book a room","phòng đơn – single room","bao nhiêu tiền – how much","bữa sáng – breakfast","view – view"]},
+    {vi:"Tình huống 2: Phòng không như mong đợi", en:"Situation 2: The room is not what you expected", text:"You arrive at the hotel, but your room does not have the view you requested. Explain your concern politely and ask the receptionist for another option.", vocab:["view – view","xin lỗi – sorry","có phòng khác không – is there another room"]},
+    {vi:"Tình huống 3: Giới thiệu khách sạn", en:"Situation 3: Recommending a hotel", text:"Your friend is visiting your city. Recommend a hotel and explain why you think it is a good choice.", vocab:["giới thiệu – to recommend","khách sạn – hotel","vì – because","tốt – good"]},
+    {vi:"Tình huống 4: Phòng đắt hơn", en:"Situation 4: A more expensive room", text:"The receptionist tells you that the room price has increased. Ask why and decide whether you still want to book it.", vocab:["giá tăng – price increased","tại sao – why","vẫn – still","đặt – to book"]},
+    {vi:"Tình huống 5: Sở thích khác nhau", en:"Situation 5: Hotel preferences", text:"You and your teacher have different preferences. One person prefers a cheap hotel, while the other prefers a comfortable hotel with more facilities. Discuss your choices.", vocab:["rẻ – cheap","thoải mái – comfortable","tiện nghi – facilities","sở thích – preference"]}
+  ], follow:["Tại sao?","Anh/chị có thể kể thêm không?","Khi nào?","Với ai?","Anh/chị cảm thấy thế nào?","Anh/chị có ví dụ không?"]}
+];
+
+const speakFlat = [];
+SPEAK.forEach(t=>{
+  if (t.items) t.items.forEach(it=>speakFlat.push({topic:t.topic, title:t.title, ...it, kind:"prompt", follow:t.follow}));
+  if (t.situations) t.situations.forEach(s=>speakFlat.push({topic:t.topic, title:t.title, ...s, kind:"situation", follow:t.follow}));
+});
+let speakIdx = 0;
+let speakTopicFilter = "ALL";
+
+const topicSel = document.getElementById("topic-select");
+const topicOpts = [["ALL","All topics"]].concat(SPEAK.map(t=>[t.topic, "Topic "+t.topic+": "+t.title]));
+topicOpts.forEach(([k,label])=>{
+  const b = document.createElement("button");
+  b.textContent = label;
+  b.setAttribute("aria-pressed", String(k==="ALL"));
+  b.dataset.topic = k;
+  b.addEventListener("click", ()=>{
+    speakTopicFilter = k;
+    topicSel.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", String(x===b)));
+    speakIdx = 0;
+    renderSpeak();
+  });
+  topicSel.appendChild(b);
+});
+
+function filteredSpeak(){
+  return speakTopicFilter==="ALL" ? speakFlat : speakFlat.filter(x=>x.topic===speakTopicFilter);
+}
+function renderSpeak(){
+  const list = filteredSpeak();
+  const area = document.getElementById("speak-area");
+  const counter = document.getElementById("speak-counter");
+  area.innerHTML = "";
+  if (!list.length) return;
+  if (speakIdx >= list.length) speakIdx = list.length-1;
+  if (speakIdx < 0) speakIdx = 0;
+  const p = list[speakIdx];
+  counter.textContent = "Question "+(speakIdx+1)+" of "+list.length+"  ·  Topic "+p.topic;
+  document.getElementById("speak-prev").disabled = speakIdx===0;
+  document.getElementById("speak-next").disabled = speakIdx===list.length-1;
+
+  const card = document.createElement("div");
+  card.className = "prompt-card";
+  const h = document.createElement("div");
+  h.className = "hint";
+  h.style.marginTop = "0";
+  h.textContent = (p.kind==="situation" ? "Situation: " : "Question: ") + p.title;
+  card.appendChild(h);
+
+  if (p.kind==="situation"){
+    const s = document.createElement("div");
+    s.className = "situation";
+    s.innerHTML = '<div class="vi-q"></div><div class="en-q" style="display:none;margin:6px 0 0;color:var(--muted);font-style:italic"></div>';
+    s.querySelector(".vi-q").textContent = p.vi;
+    card.appendChild(s);
+    const scen = document.createElement("div");
+    scen.style.margin = "6px 0";
+    scen.textContent = p.text;
+    scen.dataset.role = "scen";
+    card.appendChild(scen);
+    const enScen = document.createElement("div");
+    enScen.className = "en-q";
+    enScen.textContent = p.en;
+    card.appendChild(enScen);
+  } else {
+    const vi = document.createElement("div");
+    vi.className = "vi-q";
+    vi.textContent = p.vi;
+    card.appendChild(vi);
+    const en = document.createElement("div");
+    en.className = "en-q";
+    en.textContent = p.en;
+    card.appendChild(en);
+  }
+
+  const vocabBox = document.createElement("div");
+  vocabBox.className = "vocab-q";
+  vocabBox.innerHTML = "<strong>Useful vocabulary</strong><ul style='margin:6px 0 0;padding-left:18px'></ul>";
+  const ul = vocabBox.querySelector("ul");
+  p.vocab.forEach(v=>{ const li=document.createElement("li"); li.textContent=v; ul.appendChild(li); });
+  card.appendChild(vocabBox);
+
+  const fu = document.createElement("div");
+  fu.className = "followups";
+  const fuUl = document.createElement("ul");
+  p.follow.forEach(f=>{ const li=document.createElement("li"); li.textContent=f; fuUl.appendChild(li); });
+  fu.innerHTML = "<strong>Follow-up prompts</strong>";
+  fu.appendChild(fuUl);
+  card.appendChild(fu);
+
+  const acts = document.createElement("div");
+  acts.className = "prompt-actions";
+  const bEn = document.createElement("button"); bEn.className="btn ghost small"; bEn.textContent="Show English";
+  const bV = document.createElement("button"); bV.className="btn ghost small"; bV.textContent="Show Useful Vocabulary";
+  const bF = document.createElement("button"); bF.className="btn ghost small"; bF.textContent="Show Follow-up Prompts";
+  acts.appendChild(bEn); acts.appendChild(bV); acts.appendChild(bF);
+  card.appendChild(acts);
+
+  const enEl = card.querySelector(".en-q");
+  const enSc = card.querySelectorAll(".en-q");
+  bEn.addEventListener("click", ()=>{
+    const on = !enSc[0].classList.contains("show");
+    enSc.forEach(e=>e.classList.toggle("show", on));
+    bEn.textContent = on ? "Hide English" : "Show English";
+  });
+  bV.addEventListener("click", ()=>{
+    const on = !vocabBox.classList.contains("show");
+    vocabBox.classList.toggle("show", on);
+    bV.textContent = on ? "Hide Useful Vocabulary" : "Show Useful Vocabulary";
+  });
+  bF.addEventListener("click", ()=>{
+    const on = !fu.classList.contains("show");
+    fu.classList.toggle("show", on);
+    bF.textContent = on ? "Hide Follow-up Prompts" : "Show Follow-up Prompts";
+  });
+  area.appendChild(card);
+}
+document.getElementById("speak-prev").addEventListener("click", ()=>{ speakIdx--; renderSpeak(); });
+document.getElementById("speak-next").addEventListener("click", ()=>{ speakIdx++; renderSpeak(); });
+renderSpeak();
+
+/* ---------- Review ---------- */
+function renderReviewProgress(){
+  const box = document.getElementById("review-progress");
+  if (!box) return;
+  const q = STATE.quizzes;
+  const line = (label, val) => '<div style="margin-bottom:6px">'+label+': '+(val? '<strong>'+val.score+' / '+val.total+'</strong>' : '<span style="color:var(--muted)">not finished</span>')+'</div>';
+  box.innerHTML =
+    line("Vocabulary matching", STATE.matchDone ? {score:VOCAB.length,total:VOCAB.length} : null)+
+    line("Grammar 1: Thế nào cũng", q.g1)+
+    line("Grammar 2: Tuy / Dù / Mặc dù", q.g2)+
+    line("Grammar 3: Ngày càng", q.g3)+
+    line("Comprehension Check", q.check);
+}
+(function fillReviewVocab(){
+  const box = document.getElementById("review-vocab");
+  VOCAB.forEach(v=>{
+    const s = document.createElement("span");
+    s.textContent = v.vi+" – "+v.en;
+    box.appendChild(s);
+  });
+})();
+
+document.getElementById("restart-lesson").addEventListener("click", ()=>{
+  if (!confirm("Restart the lesson? This resets all quiz scores and matching progress.")) return;
+  STATE.matchDone = false;
+  STATE.quizzes = {g1:null,g2:null,g3:null,check:null};
+  setupMatch();
+  buildQuiz("quiz-g1","score-g1","g1",G1_ITEMS);
+  buildQuiz("quiz-g2","score-g2","g2",G2_ITEMS);
+  buildQuiz("quiz-g3","score-g3","g3",G3_ITEMS);
+  buildQuiz("check-quiz","check-score","check",CHECK_ITEMS);
+  refreshProgress();
+  showPanel("home");
+});
+
+refreshProgress();
+
+/* Keep footer clear of content on small screens */
+function ensureFooterSpace(){
+  document.body.style.paddingBottom = "56px";
+}
+ensureFooterSpace();
+
+})();
+</script>
+</body>
+</html>
